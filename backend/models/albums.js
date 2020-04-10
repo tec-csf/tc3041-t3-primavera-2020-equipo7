@@ -8,4 +8,5 @@ var albumSchema = new Schema({
     id_artist: Number
 });
 
-module.exports = mongoose.model('albums', albumSchema );
+module.exports = albumSchema;
+// module.exports = mongoose.model('albums', albumSchema );

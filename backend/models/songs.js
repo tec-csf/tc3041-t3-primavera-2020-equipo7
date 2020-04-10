@@ -9,4 +9,5 @@ var songSchema = new Schema({
     id_album: Number,
     });
 
-    module.exports = mongoose.model('songs', songSchema );
+module.exports = songSchema;
+    // module.exports = mongoose.model('songs', songSchema );

@@ -24,119 +24,145 @@ mongoose
 		console.log(`DB connection Error: ${err.message}`);
 	});
 
-//const db = mongoose.connection;
-//db.on('error', console.error.bind(console, 'connection error:'));
+/**
+ * HOLA ROB: AQUI TE DEJO LA ESTRUCTURA QUE IMAGINO PARA LA APP:
+ * 
+ * catalog/ : la pagina de inicio en donde se despliegan algunos albums
+ * catalog/<objeto> : objeto siendo artista, cancion, disquera, o album
+ * catalog/<objeto>/id :  igual que arriba, para obtener info de la song o lo que sea
+ * catalog/<objeto>/create : pos ya sabes
+ * catalog/<objeto>/id/delete: obvio no?
+ * catalog/<objeto>/id/update : obvi wan
+ * 
+ * No funciona, pero ya me dio sueno asi que trate de avanzar lo mas que pude ahorita
+ * Saque la info de aca (echale un ojo): 
+ * https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes
+ * 
+ */
 
-//////////////////////////////ENDPOINTS/////////////////////////////
+
+    //////////////////////////////ENDPOINTS/////////////////////////////
+
+
+var indexRouter = require('./routes/index');
+var catalogRouter = require('./routes/catalog');
 
 //Pulling the models needed for the endpoints (all of them, basically)
+let albumSchema = require('./models/albums');
+let artistSchema = require('./models/artists');
+let companiesSchema = require('./models/companies');
+let songSchema = require('./models/songs');
 
-//NOTA: NO HE ENCONTRADO LA MANERA DE SEGMENTAR EL CODIGO.
-// let albums = require('./models/albums');
-// let artists = require('./models/artists');
-// let companies = require('./models/companies');
-// let songs = require('./models/songs');
-
-///////////////////////////// SCHEMAS ///////////////////////////
-let Schema = mongoose.Schema;
-let albumSchema = new Schema({
-	name: String,
-	launch_date: Date,
-	id_company: Number,
-	id_artist: Number
-});
-
-let artistSchema = new Schema({
-	name: String,
-	start_date: Date,
-	birth_date: Date,
-	birth_country: String
-});
-
-let companiesSchema = new Schema({
-	name: String,
-	start_date: Date,
-	coordinates: {
-		type: {
-			type: String, // Don't do `{ location: { type: String } }`
-			enum: [ 'Point' ], // 'location.type' must be 'Point'
-			required: true
-		},
-		coordinates: {
-			type: [ Number ],
-			required: true
-		}
-	}
-});
-let songSchema = new Schema({
-	name: String,
-	duration: Number,
-	genres: [ String ],
-	id_artist: Number,
-	id_album: Number
-});
 
 const artistsCollection = mongoose.model('artist', artistSchema, 'artists');
-mongoose.model('album', albumSchema, 'albums');
-mongoose.model('company', companiesSchema, 'companies');
-mongoose.model('song', songSchema, 'songs');
+const albumsCollection = mongoose.model('album', albumSchema, 'albums');
+const companiesCollection = mongoose.model('company', companiesSchema, 'companies');
+const songsCollection = mongoose.model('song', songSchema, 'songs');
 
 //////////////////////////////////////ENDPOINTS//////////////////////////
 
-app.get('/', (req, res) => {
-	res.send('Hello World');
-	// si no haces el limit tarda un buen
-	/*artistsCollection.find({}).limit(10).exec((err, data) => {
-		if(err){
-		console.log(err)
-		}
-		console.log(data)
-	} )*/
-});
 
-app.get('/api/artists', (req, res) => {
-	artistsCollection
-		.aggregate([
-			{
-				$sort: {
-					name: 1
-				}
-			},
-			{ $limit: 30 }
-		])
-		.exec((err, data) => {
-			if (err) {
-				console.log(err);
-			}
-			//console.log(data);
-			res.send(data)
-		});
-});
+////////////////// GET ////////////////
 
-app.get('/api/artists/:id', (req, res) => {
-	res.send(req.params);
-});
-
-// app.get('/api/artists/:id', (req, res) => {
-//     res.send(req.params);
+//Main Menu
+// app.get('/', (req, res) => {
+// 	res.send('Hello World');
+// 	// si no haces el limit tarda un buen
+// 	/*artistsCollection.find({}).limit(10).exec((err, data) => {
+// 		if(err){
+// 		console.log(err)
+// 		}
+// 		console.log(data)
+// 	} )*/
 // });
 
-app.get('/api/songs/', (req, res) => {
-	let song = mongoose.model('song', songSchema, 'songs');
-	song.find({ name: 'Pearl' }, 'name', function(err, result) {
-		if (err) return handleError(err);
-		else res.send(result);
-		// Prints "Space Ghost is a talk show host".
-		// console.log('%s %s is a %s.', person.name.first, person.name.last,
-		//     person.occupation);
-	});
-});
 
-// app.get('/api/songs/', (req,res) =>{
-//     db.songs.find({name: 'Forever Carousel'}, 'name', function (err, result) {
-//         if (err) return handleError(err);
-//         else res.send(result);
-//     })
+// //artists
+// app.get('/catalog/artists', (req, res) => {
+// 	artistsCollection
+// 		.aggregate([
+// 			{
+// 				$sort: {
+// 					name: 1
+// 				}
+// 			},
+// 			{ $limit: 30 }
+// 		])
+// 		.exec((err, data) => {
+// 			if (err) {
+//                 console.log(err);
+//                 res.status(404).send({error: 'No documents found'});
+// 			}
+// 			//console.log(data);
+// 			res.send(data);
+// 		});
+// });
+
+
+// // get a single artist
+// app.get('/catalog/artists/:id', (req, res) => {
+//     let id = parseInt(req.params.id);
+//     artistsCollection.aggregate([
+//         {
+//             '$match': {
+//                 '_id': id
+//             }
+//         }, {
+//             '$project': {
+//                 '_id': 0,
+//                 'birth_date': 0,
+//                 'start_date': 0
+//             }
+//         }
+//     ]).exec((err, data) => {
+//         if (err) {
+//             console.log(err);
+//             res.status(404).send({error:'No songs match your query'});
+//         }
+//         res.send(data);
+//     });
+// });
+
+// //get all songs
+// app.get('/catalog/songs', (req, res) => {
+//     songsCollection.aggregate([
+//         {
+//             '$unwind': "id_artist"},
+
+//     ])
+//     .exec((err, data) => {
+//         if (err) {
+//             console.log(err);
+//             res.status(404).send({error:'No documents found'});
+//         }
+//         res.send(data);
+//     });
+//     // song.find({name: "Pearl"}, function(err, result) {
+// 	// 	if (err) return handleError(err);
+// 	// 	else res.send(result);
+// 	// });
+// });
+
+// //get specific song
+// app.get('/catalog/songs/:id', (req, res) => {
+//     let id = parseInt(req.params.id);
+//     songsCollection.aggregate([
+//         {
+//             '$match': {
+//                 '_id': id
+//             }
+//         }, {
+//             '$project': {
+//                 '_id': 0
+//             }
+//         }
+//     ]).exec((err, data) => {
+//         if (err) {
+//             console.log(err);
+//             res.status(404).send({error: 'No documents found'});
+//         }
+//         res.send(data);
+//     });
 // });
 
 const port = process.env.PORT || 3000;
