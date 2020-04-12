@@ -16,7 +16,7 @@ router.get('/', album_controller.index);
 router.get('/album/create', album_controller.album_create_get);
 
 // POST request for creating Book.
-router.post('/album/create', book_controller.book_create_post);
+router.post('/album/create', album_controller.album_create_post);
 
 // GET request to delete Book.
 router.get('/album/:id/delete', album_controller.album_delete_get);

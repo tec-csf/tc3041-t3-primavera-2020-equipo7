@@ -1,8 +1,18 @@
 var Song = require('../models/songs');
 
 // Display list of all Authors.
-exports.companies_list = function (req, res) {
+exports.song_list = function (req, res) {
     res.send('NOT IMPLEMENTED: Songs list');
+};
+
+// Display detail page for a specific book.
+exports.song_detail = function (req, res) {
+    res.send('NOT IMPLEMENTED: Book detail: ' + req.params.id);
+};
+
+// Display song create form on GET.
+exports.song_create_get = function (req, res) {
+    res.send('NOT IMPLEMENTED: Book create GET');
 };
 
 // Handle Song create on POST.

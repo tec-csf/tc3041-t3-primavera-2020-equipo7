@@ -47,6 +47,9 @@ mongoose
 var indexRouter = require('./routes/index');
 var catalogRouter = require('./routes/catalog');
 
+app.use('/', indexRouter);
+app.use('/catalog', catalogRouter);  // Add catalog routes to middleware chain.
+
 //Pulling the models needed for the endpoints (all of them, basically)
 let albumSchema = require('./models/albums');
 let artistSchema = require('./models/artists');
