@@ -112,6 +112,6 @@ router.post('/song/:id/update', song_controller.song_update_post);
 router.get('/song/:id', song_controller.song_detail);
 
 // GET request for list of all song.
-router.get('/songs', song_controller.song_list);
+router.get('/songs/:page_no', song_controller.song_list);
 
 module.exports = router;
