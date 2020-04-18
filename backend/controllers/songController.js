@@ -1,8 +1,7 @@
-let songSchema = require('../models/songs');
+const songSchema = require('../models/songs');
 const mongoose = require('mongoose');
-let bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const songsCollection = mongoose.model('song', songSchema, 'songs');
-
 
 // Display list of all songs.
 exports.song_list = function (req, res) {
@@ -12,7 +11,7 @@ exports.song_list = function (req, res) {
     page_no = req.params.page_no;
     songsCollection.aggregate([
         {
-            '$skip': 30*page_no
+            '$skip': 30 * (page_no - 1)
         }, {
             '$sort': {
                 'name': 1
@@ -91,11 +90,11 @@ exports.song_detail = function (req, res) {
 };
 
 // Handle Song create on POST.
-exports.song_create_post = function (req, res) {
+exports.song_create = function (req, res) {
     let newSong = new songSchema(req, bodyParser);
     newSong.save()
     .then(item => {
-        res.send('Song added to database');
+        res.status(201).send('Song added to database');
     })
     .catch(err => {
         res.status(400).send({error:'Unable to save song into database'})
@@ -109,15 +108,12 @@ exports.song_delete = function (req, res) {
             console.log(err);
             res.status(400).send({error:'Could not delete song.'});
         }
-        else{
-            res.redirect('/catalog/songs/1');
-        }
+        res.status(200).send('Todo gud')
     });
-    // res.send('Not implemented: song delete (delete)');
 };
 
 // Handle Song update on POST.
-exports.song_update_post = function (req, res) {
+exports.song_update = function (req, res) {
     id = req.params.id;
     songsCollection.findById(id, function(err, data){
     let name = req.body.name;
@@ -125,9 +121,7 @@ exports.song_update_post = function (req, res) {
     let genres = req.body.genres;
     let artist = req.body.artist;
     let album = req.body.album;
-    
-    // id_album
-    // id_artist = 
+
     
     if (!data){
         console.log('No song found to be updated.');
@@ -148,7 +142,7 @@ exports.song_update_post = function (req, res) {
                 }
             }
         );
-        res.redirect('/catalog/song/:id');
+        res.status(201).send('Todo gud');
     }
     });
 

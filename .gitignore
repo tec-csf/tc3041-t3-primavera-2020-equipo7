@@ -194,3 +194,6 @@ $RECYCLE.BIN/
 
 package-lock.json
 yarn.lock
+
+#key with password
+keys_dev.js
