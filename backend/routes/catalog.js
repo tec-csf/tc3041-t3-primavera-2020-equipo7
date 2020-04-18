@@ -102,6 +102,9 @@ router.get('/song/:id/delete', song_controller.song_delete_get);
 // POST request to delete song.
 router.post('/song/:id/delete', song_controller.song_delete_post);
 
+//DELETE request to delete song
+router.delete('/song/:id/delete', song_controller.song_delete);
+
 // GET request to update song.
 router.get('/song/:id/update', song_controller.song_update_get);
 

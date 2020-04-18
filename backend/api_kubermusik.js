@@ -44,11 +44,14 @@ mongoose
     //////////////////////////////ENDPOINTS/////////////////////////////
 
 
-var indexRouter = require('./routes/index');
-var catalogRouter = require('./routes/catalog');
+let indexRouter = require('./routes/index');
+let catalogRouter = require('./routes/catalog');
+let bodyParser = require('body-parser');
 
 app.use('/', indexRouter);
 app.use('/catalog', catalogRouter);  // Add catalog routes to middleware chain.
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Pulling the models needed for the endpoints (all of them, basically)
 let albumSchema = require('./models/albums');
