@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 let bodyParser = require('body-parser');
 const songsCollection = mongoose.model('song', songSchema, 'songs');
 
-// var Song = require('../models/songs');
 
 // Display list of all songs.
 exports.song_list = function (req, res) {
@@ -58,7 +57,7 @@ exports.song_detail = function (req, res) {
     songsCollection.aggregate([
         {
             '$match': {
-                '_id': 1
+                '_id': id
             }
         }, {
             '$lookup': {
@@ -91,14 +90,9 @@ exports.song_detail = function (req, res) {
     });
 };
 
-// Display song create form on GET.
-exports.song_create_get = function (req, res) {
-    res.send('NOT IMPLEMENTED: Book create GET');
-};
-
 // Handle Song create on POST.
 exports.song_create_post = function (req, res) {
-    let newSong = new songSchema(req, body);
+    let newSong = new songSchema(req, bodyParser);
     newSong.save()
     .then(item => {
         res.send('Song added to database');
@@ -109,35 +103,23 @@ exports.song_create_post = function (req, res) {
     // res.send('NOT IMPLEMENTED: Song create POST');
 };
 
-// Display Song delete form on GET.
-exports.song_delete_get = function (req, res) {
-    res.send('NOT IMPLEMENTED: Song delete GET');
-};
-
 exports.song_delete = function (req, res) {
     songsCollection.deleteOne({'_id': req.params.id}, (err, data) =>{
         if (err){
             console.log(err);
             res.status(400).send({error:'Could not delete song.'});
         }
+        else{
+            res.redirect('/catalog/songs/1');
+        }
     });
     // res.send('Not implemented: song delete (delete)');
 };
 
-// Handle Song delete on POST.
-exports.song_delete_post = function (req, res) {
-    res.send('NOT IMPLEMENTED: Song delete POST');
-};
-
-// Display Song update form on GET.
-exports.song_update_get = function (req, res) {
-    res.send('NOT IMPLEMENTED: Song update GET');
-};
-
 // Handle Song update on POST.
 exports.song_update_post = function (req, res) {
-    //FINISHHHHHHHHH
-    songsCollection.findById(req.params.id, function(err, data){
+    id = req.params.id;
+    songsCollection.findById(id, function(err, data){
     let name = req.body.name;
     let duration = req.body.duration;
     let genres = req.body.genres;
@@ -148,7 +130,7 @@ exports.song_update_post = function (req, res) {
     // id_artist = 
     
     if (!data){
-        console.log('No song found to be updated');
+        console.log('No song found to be updated.');
     }
     else{
         songsCollection.update(
@@ -165,7 +147,8 @@ exports.song_update_post = function (req, res) {
                     "id_album": album
                 }
             }
-        )
+        );
+        res.redirect('/catalog/song/:id');
     }
     });
 
@@ -178,5 +161,6 @@ exports.song_update_post = function (req, res) {
     //     }
 
     // )
-    res.send('NOT IMPLEMENTED: Song update POST');
+
+    // res.send('NOT IMPLEMENTED: Song update POST');
 };

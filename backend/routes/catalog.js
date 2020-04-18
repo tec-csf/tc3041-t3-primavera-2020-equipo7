@@ -90,23 +90,11 @@ router.get('/companies', companies_controller.companies_list);
 
 /// SONGS ROUTES ///
 
-// GET request for creating a BookInstance. NOTE This must come before route that displays BookInstance (uses id).
-router.get('/song/create', song_controller.song_create_get);
-
 // POST request for creating song. 
 router.post('/song/create', song_controller.song_create_post);
 
-// GET request to delete song.
-router.get('/song/:id/delete', song_controller.song_delete_get);
-
-// POST request to delete song.
-router.post('/song/:id/delete', song_controller.song_delete_post);
-
 //DELETE request to delete song
 router.delete('/song/:id/delete', song_controller.song_delete);
-
-// GET request to update song.
-router.get('/song/:id/update', song_controller.song_update_get);
 
 // POST request to update song.
 router.post('/song/:id/update', song_controller.song_update_post);
@@ -117,4 +105,5 @@ router.get('/song/:id', song_controller.song_detail);
 // GET request for list of all song.
 router.get('/songs/:page_no', song_controller.song_list);
 
+//EXPORTING all routers to the main app
 module.exports = router;
