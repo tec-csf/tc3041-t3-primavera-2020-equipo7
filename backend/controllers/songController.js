@@ -100,25 +100,50 @@ exports.song_detail = function (req, res) {
 
 // Handle Song create on POST.
 exports.song_create = function (req, res) {
-    let newSong = new songSchema(req, bodyParser);
-    newSong.save()
-    .then(item => {
-        res.status(201).send('Song added to database');
-    })
-    .catch(err => {
-        res.status(400).send({error:'Unable to save song into database'})
+    // let newSong = new songSchema(req, bodyParser);
+
+    let Song = mongoose.model('Song', songSchema);
+    const id = req.body._id;
+    const name = req.body.name;
+    const duration = req.body.duration;
+    const genres = req.body.genres;
+    const artist = req.body.artist;
+    const album = req.body.album;
+
+    let newSong = new Song({id, name, duration, genres, artist, album});
+    newSong.save(function (err) {
+        if (err) res.status(400).send({error: 'Unable to create song and add it to database'});
+        res.status(201).send('Song successfully added to database');
     });
+    // .then(item => {
+    //     res.status(201).send('Song added to database');
+    // })
+    // .catch(err => {
+    //     res.status(400).send({error:'Unable to save song into database'})
+    // });
     // res.send('NOT IMPLEMENTED: Song create POST');
 };
 
 exports.song_delete = function (req, res) {
-    songsCollection.deleteOne({'_id': req.params.id}, (err, data) =>{
-        if (err){
+    let id_song = parseInt(req.params.id);
+    console.log('type of id song '+ typeof id_song);
+    songsCollection.find({'_id' : id_song}, (err, data) =>{
+        if (err) {
             console.log(err);
-            res.status(400).send({error:'Could not delete song.'});
+            res.status(400).send({error: 'Could not delete song ahhh'});
+        }else {
+            res.status(200).send(data);
         }
-        res.status(200).send('Todo gud')
     });
+    // NOTA: no funciona ninguno de los dos por que nuestros _id son numeros, y deberian ser ObjectId (los de mongo) => lanza un castError
+    // songsCollection.deleteOne( { _id : id_song }, (err, data) => {
+    //     if (err){
+    //         console.log(err);
+    //         res.status(400).send({error:'Could not delete song.'});
+    //     }else{
+    //         res.status(200).send(data);
+    //     }
+    // });
 };
 
 // Handle Song update on POST.
@@ -138,7 +163,7 @@ exports.song_update = function (req, res) {
     else{
         songsCollection.update(
             {
-                '_id': req.params.id
+                '_id': parseInt(req.params.id)
             },
             {
                 "$set":
@@ -153,5 +178,28 @@ exports.song_update = function (req, res) {
         );
         res.status(201).send('Todo gud');
     }
+    });
+};
+
+exports.song_search = function(req,res) {
+    let desired_name = req.params.string;
+
+    songsCollection.aggregate([
+        {
+            '$match': {
+                'name': {
+                    '$regex': '(?i)' + desired_name
+                }
+            }
+        }, {
+            '$limit': 20
+        }
+    ])
+    .exec((err, data) => {
+        if (err) {
+            console.log(err);
+            res.status(404).send({ error: 'Oops. No song matches that name.' })
+        }
+        res.send(data);
     });
 };

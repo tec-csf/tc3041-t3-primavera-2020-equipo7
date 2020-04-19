@@ -30,6 +30,9 @@ router.get('/album/:id/', album_controller.album_detail);
 // GET request for list of all album items.
 router.get('/albums/:page_no/', album_controller.album_list);
 
+//Search for an album with its name
+router.post('/album/:string/', album_controller.album_search);
+
 /// artist ROUTES ///
 
 // POST request for creating Author.
@@ -80,6 +83,9 @@ router.get('/song/:id/', song_controller.song_detail);
 
 // GET request for list of all song.
 router.get('/songs/:page_no/', song_controller.song_list);
+
+//Search for a song with its name using POST
+router.post('/song/:string/', song_controller.song_search);
 
 //EXPORTING all routers to the main app
 module.exports = router;

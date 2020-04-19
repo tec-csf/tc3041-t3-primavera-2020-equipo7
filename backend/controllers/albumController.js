@@ -73,7 +73,7 @@ exports.album_create = function (req, res) {
 
 // Display Album delete form on GET.
 exports.album_delete = function (req, res) {
-    albumsCollection.deleteOne({ '_id': req.params.id }, (err, data) => {
+    albumsCollection.deleteOne({ '_id': parseInt(req.params.id) }, (err, data) => {
         if (err) {
             console.log(err);
             res.status(400).send({ error: 'Album could not be deleted. Dependencies might still be active.' });
@@ -164,3 +164,27 @@ exports.album_detail = function (req, res) {
     });
     // res.send('NOT IMPLEMENTED: Book detail: ' + req.params.id);
 };
+
+exports.album_search = function (req, res) {
+    let desired_name = req.params.string;
+
+    albumsCollection.aggregate([
+        {
+            '$match': {
+                'name': {
+                    '$regex': '(?i)' + desired_name
+                }
+            }
+        }, {
+            '$limit': 20
+        }
+    ])
+        .exec((err, data) => {
+            if (err) {
+                console.log(err);
+                res.status(404).send({ error: 'Oops. No album matches that name.' })
+            }
+            res.send(data);
+        });
+    // res.send('album search by name not implemented')
+}
