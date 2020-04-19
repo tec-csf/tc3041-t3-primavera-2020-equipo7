@@ -13,8 +13,12 @@ exports.album_list = function (req, res) {
     page_no = req.params.page_no;
     albumsCollection.aggregate([
         {
-            '$match': {
-                '_id': 1
+            '$skip': 30 * (page_no - 1)
+        }, {
+            '$limit': 30
+        }, {
+            '$sort': {
+                'name': 1
             }
         }, {
             '$lookup': {
@@ -28,7 +32,15 @@ exports.album_list = function (req, res) {
                 'from': 'companies',
                 'localField': 'id_company',
                 'foreignField': '_id',
-                'as': 'record_label'
+                'as': 'company'
+            }
+        }, {
+            '$unwind': {
+                'path': '$artist'
+            }
+        }, {
+            '$unwind': {
+                'path': '$company'
             }
         }, {
             '$project': {
@@ -112,7 +124,7 @@ exports.album_detail = function (req, res) {
     albumsCollection.aggregate([
         {
             '$match': {
-                '_id': 1
+                '_id': parseInt(id_album)
             }
         }, {
             '$lookup': {
