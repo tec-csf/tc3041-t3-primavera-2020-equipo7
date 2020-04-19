@@ -13,11 +13,11 @@ exports.song_list = function (req, res) {
         {
             '$skip': 30 * (page_no - 1)
         }, {
+            '$limit': 30
+        }, {
             '$sort': {
                 'name': 1
             }
-        }, {
-            '$limit': 30
         }, {
             '$lookup': {
                 'from': 'artists',
@@ -33,10 +33,17 @@ exports.song_list = function (req, res) {
                 'as': 'album'
             }
         }, {
-            '$project': {
-                '_id': 0,
-                'id_artist': 0,
-                'id_album': 0
+            '$unwind' : {
+                'path' : '$album'
+            }
+        }, {
+            '$unwind' : {
+                'path' : '$artist'
+            }
+        }, {
+            '$project' : {
+                'id_artist' : 0,
+                'id_album' : 0
             }
         }
     ])
@@ -52,11 +59,11 @@ exports.song_list = function (req, res) {
 
 // Display detail page for a specific book.
 exports.song_detail = function (req, res) {
-    id = req.params.id;
+    id_song = req.params.id;
     songsCollection.aggregate([
         {
             '$match': {
-                '_id': id
+                '_id': parseInt(id_song)
             }
         }, {
             '$lookup': {
@@ -73,10 +80,12 @@ exports.song_detail = function (req, res) {
                 'as': 'album'
             }
         }, {
-            '$project': {
-                '_id': 0,
-                'id_artist': 0,
-                'id_album': 0
+            '$unwind' : {
+                'path' : '$album'
+            }
+        }, {
+            '$unwind' : {
+                'path' : '$artist'
             }
         }
     ])
@@ -145,16 +154,4 @@ exports.song_update = function (req, res) {
         res.status(201).send('Todo gud');
     }
     });
-
-    // songsCollection.update(
-    //     {
-    //         "_id": req.params.id
-    //     },
-    //     {
-            
-    //     }
-
-    // )
-
-    // res.send('NOT IMPLEMENTED: Song update POST');
 };
