@@ -203,3 +203,33 @@ exports.song_search = function(req,res) {
         res.send(data);
     });
 };
+
+exports.song_cats = function (req, res) {
+    //en cada pagina da una cuenta de los generos que hay
+    let page_no = parseInt(req.params.page_no);
+    songsCollection.aggregate([
+        {
+            '$skip': 30 * (page_no - 1)
+
+        }, {
+            '$limit': 30
+        }, {
+            '$facet': {
+                'CategorizeByGenre': [
+                    {
+                        '$unwind': '$genres'
+                    }, {
+                        '$sortByCount': '$genres'
+                    }
+                ],
+            }
+        }
+    ])
+        .exec((err, data) => {
+            if (err) {
+                console.log(err);
+                res.status(404).send({ error: 'Oops. No song categories found.' })
+            }
+            res.send(data);
+        });  
+};

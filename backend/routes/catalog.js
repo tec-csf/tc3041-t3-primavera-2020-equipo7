@@ -87,5 +87,8 @@ router.get('/songs/:page_no/', song_controller.song_list);
 //Search for a song with its name using POST
 router.post('/song/:string/', song_controller.song_search);
 
+//List songs with category filter (facet)
+router.get('/songs/categories/:page_no', song_controller.song_cats);
+
 //EXPORTING all routers to the main app
 module.exports = router;

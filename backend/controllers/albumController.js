@@ -124,34 +124,21 @@ exports.album_detail = function (req, res) {
     albumsCollection.aggregate([
         {
             '$match': {
-                '_id': parseInt(id_album)
+                '_id': id_album
             }
         }, {
-            '$lookup': {
-                'from': 'artists',
-                'localField': 'id_artist',
-                'foreignField': '_id',
-                'as': 'artist'
-            }
-        }, {
-            '$lookup': {
-                'from': 'companies',
-                'localField': 'id_company',
-                'foreignField': '_id',
-                'as': 'record_label'
+            '$graphLookup': {
+                'from': 'songs',
+                'startWith': '$next_song',
+                'connectFromField': 'next_song',
+                'connectToField': '_id',
+                'as': 'NextToPlay',
+                'maxDepth': 3
             }
         }, {
             '$project': {
                 'id_company': 0,
                 'id_artist': 0
-            }
-        }, {
-            '$unwind': {
-                'path': '$artist'
-            }
-        }, {
-            '$unwind': {
-                'path': '$record_label'
             }
         }
     ])
