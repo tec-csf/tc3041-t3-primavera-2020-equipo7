@@ -2,6 +2,7 @@ const companySchema = require('../models/companies');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const companiesCollection = mongoose.model('company', companySchema, 'companies');
+const ObjectId = mongoose.Types.ObjectId;
 
 // Display list of all Authors.
 exports.companies_list = function (req, res) {
@@ -41,11 +42,12 @@ exports.companies_list = function (req, res) {
 
 // Display detail page for a specific record label company.
 exports.companies_detail = function (req, res) {
-  id = parseInt(req.params.id);
+  id = req.params.id;
+  
   companiesCollection.aggregate([
     {
       '$match': {
-        '_id': id
+        '_id': ObjectId(id)
       }
     }, {
       '$project': {
@@ -53,16 +55,6 @@ exports.companies_detail = function (req, res) {
         'name': 1,
         'start_date': 1,
         'coordinates': 1
-        // 'latitute': {
-        //   '$arrayElemAt': [
-        //     '$coordinates', 0
-        //   ]
-        // },
-        // 'longitude': {
-        //   '$arrayElemAt': [
-        //     '$coordinates', 1
-        //   ]
-        // }
       }
     }
   ])
@@ -77,13 +69,12 @@ exports.companies_detail = function (req, res) {
 
 //Handle company create on GET.
 exports.companies_create = function (req, res) {
-  const new_name = req.body.name
-  const new_start_date = req.body.start_date
-  const new_lat = parseFloat(req.body.lat)
-  const new_long = parseFloat(req.body.long)
+  let new_name = req.body.name
+  let new_start_date = req.body.start_date
+  let new_lat = parseFloat(req.body.lat)
+  let new_long = parseFloat(req.body.long)
 
   const newCompany = new companiesCollection({"name": new_name, "start_date": new_start_date, "coordinates": {"type" : "Point", "coordinates":[new_lat, new_long]}});
-  // console.log(newCompany)
 
   newCompany.save(function (err) {
     if (err) {
@@ -96,10 +87,43 @@ exports.companies_create = function (req, res) {
 
 // Display Company delete form on GET.
 exports.companies_delete = function (req, res) {
-    res.send('NOT IMPLEMENTED: Company delete');
+  let id = req.params.id;
+  
+  companiesCollection.deleteOne({'_id' : ObjectId(id)}, (err, data) =>{
+    if (err) {
+      console.log(err);
+      res.status(400).send({error: 'Could not delete company ahhh'});
+    }else {
+      res.status(200).send(data);
+    }
+  });
 };
 
 // Display Company update form on GET.
 exports.companies_update = function (req, res) {
-    res.send('NOT IMPLEMENTED: Company update');
+  id = req.params.id;
+
+  let new_name = req.body.name
+  let new_start_date = req.body.start_date
+  let new_lat = parseFloat(req.body.lat)
+  let new_long = parseFloat(req.body.long)
+
+  let filter = {'_id' : ObjectId(id)}
+  let update = {
+    "name": new_name,
+    "start_date": new_start_date,
+    "coordinates": {
+      "type" : "Point",
+      "coordinates":[new_lat, new_long]
+    }
+  }
+
+  companiesCollection.findOneAndUpdate(filter, update, function(err, data){
+    if (err) {
+      console.log(err);
+      res.status(400).send({error: 'Could not delete company ahhh'});
+    }else {
+      res.status(200).send();
+    }
+  });
 };
