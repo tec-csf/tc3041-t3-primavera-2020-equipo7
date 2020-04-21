@@ -14,11 +14,11 @@ exports.artist_list = function (req, res) {
             '_id': 1, 
             'name': 1, 
             'start_date': 1,
-            'birth:date': 1,
+            'birth_date': 1,
             'birth_country': 1
           }
         }, {
-          '$skip': page_no*30
+          '$skip': (page_no - 1)*30
         }, {
           '$limit': 30
         }

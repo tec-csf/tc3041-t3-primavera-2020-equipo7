@@ -10,6 +10,7 @@ const IndexSearch = (props) => {
 		} else {
 			switch (props.type) {
 				case 'Artist':
+					props.searcher('/artist/' + value);
 					break;
 				case 'Album':
 					props.searcher('/album/' + value);

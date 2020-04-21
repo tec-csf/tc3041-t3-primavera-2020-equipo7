@@ -22,7 +22,7 @@ const TopNavBar = (props) => {
 						</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink  to="/artistas/" className='nav-link'>
+						<NavLink  to="/artists/" className='nav-link'>
 							Artistas
 						</NavLink>
 					</NavItem>

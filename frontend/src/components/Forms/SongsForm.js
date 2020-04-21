@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import SearchBar from '../SearchBar/FastSearch';
 import axios from '../../util/axios';
 
-const AddEditAlbumForm = ({ item, toggle }) => {
+const AddEditSongsForm = ({ item, toggle }) => {
 	const { register, handleSubmit, errors } = useForm();
 
 	const onSubmitHandler = (data) => {
@@ -87,9 +87,9 @@ const AddEditAlbumForm = ({ item, toggle }) => {
 	);
 };
 
-AddEditAlbumForm.propTypes = {
+AddEditSongsForm.propTypes = {
 	toggle: PropTypes.func,
 	item: PropTypes.object
 };
 
-export default AddEditAlbumForm;
+export default AddEditSongsForm;

@@ -18,18 +18,7 @@ const SongsTable = (props) => {
 				<Col sm="4" key={item._id}>
 					<Card style={{ marginTop: '10px', marginBottom: '10px' }}>
 						<CardHeader tag="h3">{item.name}</CardHeader>
-						<CardFooter>
-							<div style={{ width: '110px' }}>
-								<ModalForm
-									isEditing
-									updateState={props.updateState}
-									AddEditForm={SongsForm}
-									item={item}
-								/>
-								<DeleteModal title={item.name} id={item._id} updateState={props.updateState} />
-							</div>
 
-						</CardFooter>
 						<CardBody>
 							<CardTitle>
 								<b>Álbum: </b>
@@ -38,7 +27,7 @@ const SongsTable = (props) => {
 							<b>Autor: </b>
 							{/* <Label size="medium">
 								<Icon name="microphone" /> */}
-								{item.artist.name}
+							{item.artist.name}
 							{/* </Label> */}
 						</CardBody>
 						<CardFooter>
@@ -61,6 +50,17 @@ const SongsTable = (props) => {
 									{gender}
 								</Label>
 							))}
+						</CardFooter>
+						<CardFooter>
+							<div style={{ width: '110px' }}>
+								<ModalForm
+									isEditing
+									updateState={props.updateState}
+									AddEditForm={SongsForm}
+									item={item}
+								/>
+								<DeleteModal title={item.name} id={item._id} updateState={props.updateState} />
+							</div>
 						</CardFooter>
 					</Card>
 				</Col>
