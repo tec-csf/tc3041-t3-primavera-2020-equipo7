@@ -96,26 +96,20 @@ exports.album_update = function (req, res) {
     const new_launch_date = req.body.launch_date;
     const new_id_company = ObjectId(req.body.id_company);
     const new_id_artist = ObjectId(req.body.artist);
-    console.log(req.params.id)
-    console.log(req.body)
     id = ObjectId(req.params.id);
-    console.log('beginning update');
-    console.log(id);
-    
-    albumsCollection.where({"_id" : id})
-    .update({
-        "$set":
-        {
-            "name": new_name,
-            "launch_date": new_launch_date,
-            "id_company": new_id_company,
-            "id_artist": new_id_artist
-        }
-    });
-    res.status(201).send('Updated album successfully');
-};
-    // res.send('NOT IMPLEMENTED: Album update');
 
+    albumsCollection.updateOne({_id : id}, 
+        {
+            $set:
+            {
+                name: new_name,
+                launch_date: new_launch_date,
+                id_company: new_id_company,
+                id_artist: new_id_artist
+            }
+        });
+    res.send('Album updated suscessfully');
+};
 
 // Display detail page for a specific book.
 exports.album_detail = function (req, res) {

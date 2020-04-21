@@ -2,12 +2,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var songSchema = new Schema({
-    _id: Number,
     name: String,
     duration: Number,
     genres: [String],
-    id_artist: Number,
-    id_album: Number,
+    next_song: Number, //desactivar este
+    // next_song: Schema.Types.ObjectId,
+    id_artist: Schema.Types.ObjectId,
+    id_album: Schema.Types.ObjectId
     });
 
 module.exports = songSchema;
