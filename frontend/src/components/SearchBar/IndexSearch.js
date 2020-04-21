@@ -19,6 +19,7 @@ const IndexSearch = (props) => {
 					props.searcher('/song/' + value);
 					break;
 				case 'Company':
+					props.searcher('/company/' + value);
 					break;
 				default:
 					console.log('Algo anda mal');

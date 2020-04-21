@@ -19,7 +19,7 @@ const App = () => {
 					<Route path="/songs/" exact component={SongsPage} />
 					<Route path="/albums/" exact component={AlbumsPage} />
 					<Route path="/artists/" exact component={ArtistsPage} />
-					<Route path="/disqueras/" exact component={CompaniesPage} />
+					<Route path="/companies/" exact component={CompaniesPage} />
 				</Switch>
 			</Container>
 		</Router>

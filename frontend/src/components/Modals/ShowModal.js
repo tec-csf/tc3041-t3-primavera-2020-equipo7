@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { useFetchDetails } from '../../util/useFetchDetails';
 
 const ShowModal = (props) => {
-
 	//controles de modal
 	const [ modal, setModal ] = useState(false);
 	const toggle = () => setModal(!modal);
@@ -14,19 +13,16 @@ const ShowModal = (props) => {
 
 	useEffect(
 		() => {
-			if (modal) {
+			if (modal && !props.dontFetch) {
 				loadData();
 			}
 		},
 		[ modal ]
 	);
 
-
 	return (
 		<div>
-			<p onClick={toggle} style={{ cursor: 'pointer', textDecoration: 'underline' }}>
-				{props.field}
-			</p>
+			<div onClick={toggle}>{props.children}</div>
 			<Modal
 				isOpen={modal}
 				modalTransition={{ timeout: 700 }}
@@ -35,7 +31,9 @@ const ShowModal = (props) => {
 			>
 				<ModalHeader toggle={toggle}>{props.title}</ModalHeader>
 				<ModalBody>
-										{isLoading ? (
+					{props.dontFetch ? (
+						<props.Details item={props.item} />
+					) : isLoading ? (
 						<Row>
 							<Col />
 							<Col>
@@ -60,10 +58,14 @@ const ShowModal = (props) => {
 };
 
 ShowModal.propTypes = {
-	field: PropTypes.string.isRequired,
+	//field: PropTypes.elementType.isRequired,
 	title: PropTypes.string.isRequired,
 	Details: PropTypes.elementType.isRequired,
-	path: PropTypes.string.isRequired
+	//if fetch
+	path: PropTypes.string,
+	//if dont fetch
+	dontFetch: PropTypes.bool,
+	item: PropTypes.object
 };
 
 export default ShowModal;

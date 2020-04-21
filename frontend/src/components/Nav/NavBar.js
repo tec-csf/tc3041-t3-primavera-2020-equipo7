@@ -27,7 +27,7 @@ const TopNavBar = (props) => {
 						</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink  to="/disqueras/" className='nav-link'>
+						<NavLink  to="/companies/" className='nav-link'>
 							Disqueras
 						</NavLink>
 					</NavItem>

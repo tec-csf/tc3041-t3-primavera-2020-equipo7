@@ -24,11 +24,15 @@ const AlbumsTable = (props) => {
 					<tr key={item._id}>
 						<th scope="row">
 							<ShowModal
-								field={item.name.length <= 27 ? item.name : item.name.slice(0, 26) + '...'}
+								//field={}
 								title={item.name}
 								Details={AlbumDetails}
 								path={'/album/' + item._id + '/'}
-							/>
+							>
+								<p style={{ cursor: 'pointer', textDecoration: 'underline' }}>
+									{item.name.length <= 27 ? item.name : item.name.slice(0, 26) + '...'}
+								</p>
+							</ShowModal>
 						</th>
 						<td>{item.launch_date.replace('T00:00:00.000Z', '')}</td>
 						<td>
