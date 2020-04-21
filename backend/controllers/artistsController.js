@@ -9,15 +9,14 @@ exports.artist_list = function (req, res) {
     
     page_no = req.params.page_no;
     artistsCollection.aggregate([
-        {
-          '$project': {
-            '_id': 1, 
-            'name': 1, 
-            'start_date': 1,
-            'birth_date': 1,
-            'birth_country': 1
-          }
-        }, {
+      {
+        '$lookup': {
+          'from': 'albums', 
+          'localField': '_id', 
+          'foreignField': 'id_artist', 
+          'as': 'aLbums'
+        }
+      }, {
           '$skip': (page_no - 1)*30
         }, {
           '$limit': 30
@@ -64,73 +63,61 @@ exports.artist_delete = function (req, res) {
   });
 };
 
-// Display detail page for a specific artist.
-exports.artist_detail = function (req, res) {
-  id = req.params.id;
-  artistsCollection.aggregate(
-    [
-      {
+// Display Artists that have that name
+exports.artist_name = function (req, res) {
+  let desired_name = req.params.string;
+
+  artistsCollection.aggregate([
+    {
         '$match': {
-          '_id': ObjectId(id)
+            'name': {
+                '$regex': '(?i)' + desired_name
+            }
         }
-      }, {
-        '$lookup': {
-          'from': 'albums', 
-          'localField': '_id', 
-          'foreignField': 'id_artist', 
-          'as': 'Albums'
-        }
-      }, {
-        '$project':{
-          '_id': 1, 
-            'name': 1, 
-            'start_date': 1,
-            'birth:date': 1,
-            'birth_country': 1,
-            'Albums': 1
-        }
-      }
-    ]
-  )
+    }, {
+        '$limit': 20
+    }
+  ])
   .exec((err, data) => {
-    if (err){
+    if (err) {
         console.log(err);
-        res.status(404).send({error:'Oops. No artist matches that ID.'})
+        res.status(404).send({ error: 'Oops. No artist matches that name.' })
     }
     res.send(data);
-  });
+});  
 };
 
+//exports.artist_update = function (req, res) {
+//}
+//Handle Artist update on POST.
+
 exports.artist_update = function (req, res) {
-}
-// Handle Artist update on POST.
-// exports.artist_update = function (req, res) {
-//   id = req.params.id;
-//   artistsCollection.findById(id, function(err, data){
-//   let new_name = req.body.name
-//   let new_start_date = req.body.start_date
-//   let new_birth_date = req.body.birth_date
-//   let new_birth_country = req.body.birth_country
+  id = req.params.id;
+  artistsCollection.findById(id, function(err, data){
+  let new_name = req.body.name
+  let new_start_date = req.body.start_date
+  let new_birth_date = req.body.birth_date
+  let new_birth_country = req.body.birth_country
   
-//   if (!data){
-//     console.log('No artist found to be updated.');
-// }
-// else{
-//     songsCollection.update(
-//         {
-//             '_id': ObjectId(id)
-//         },
-//         {
-//             "$set":
-//             {
-//                 "name": new_name,
-//                 "start_date": new_start_date,
-//                 "birth_date": new_birth_date,
-//                 "birth_country": new_birth_country
-//             }
-//         }
-//     );
-//     res.status(201).send('The artist updated correctly');
-// }
-// });
-// };
+  if (!data){
+    console.log('No artist found to be updated.');
+}
+else{
+    artistsCollection.update(
+        {
+            '_id': ObjectId(id)
+        },
+        {
+            "$set":
+            {
+                "name": new_name,
+                "start_date": new_start_date,
+                "birth_date": new_birth_date,
+                "birth_country": new_birth_country
+            }
+        }
+    );
+    res.status(201).send('The artist updated correctly');
+}
+});
+};
