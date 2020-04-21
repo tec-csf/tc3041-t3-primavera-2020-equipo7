@@ -1,26 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Row, Col } from 'reactstrap';
 //own
-import ModalForm from '../components/Modals/Modal';
+import ModalForm from '../components/Modals/ModalForm';
 import DataTable from '../components/Tables/AlbumsTable';
 import AlbumForm from '../components/Forms/AlbumForm';
 import { useFetch } from '../util/useFetch';
 import Loader from '../components/Loader';
+import Pagination from '../components/UI/Pagination';
+import IndexSearch from '../components/SearchBar/IndexSearch';
 
 const Albums = () => {
-	
-	const { loadData, isLoading, data } = useFetch();
 
-	// const updateState = (item) => {
-	// 	const itemIndex = items.findIndex((data) => data.id === item.id);
-	// 	const newArray = [ ...items.slice(0, itemIndex), item, ...items.slice(itemIndex + 1) ];
-	// 	setItems(newArray);
-	// };
-
-	// const deleteItemFromState = (id) => {
-	// 	const updatedItems = items.filter((item) => item.id !== id);
-	// 	setItems(updatedItems);
-	// };
+	const { loadData, isLoading, data, searchByName, isSearching } = useFetch();
 
 	return (
 		<React.Fragment>
@@ -30,18 +21,30 @@ const Albums = () => {
 				</Col>
 			</Row>
 			<Row>
-				{isLoading ? <Loader /> :
 				<Col>
-					<DataTable
-						items={data}
-						updateState={loadData}
-						/*deleteItemFromState={deleteItemFromState}*/ />
-				</Col>}
+					<ModalForm buttonLabel="Agregar Álbum" AddEditForm={AlbumForm} updateState={loadData}/>
+				</Col>
+				<Col>
+					<IndexSearch searcher={searchByName} type='Album' reloader={loadData}/>
+				</Col>
+				<Col>
+				{
+					!isSearching &&
+					<Pagination totalPages={Math.ceil(200060/30)}/>
+				}
+				</Col>
 			</Row>
 			<Row>
-				<Col>
-					<ModalForm buttonLabel="Agregar Álbum" AddEditForm={AlbumForm} />
-				</Col>
+				{isLoading ? (
+					<Loader />
+				) : (
+					<Col>
+						<DataTable
+							items={data}
+							updateState={loadData}
+						/>
+					</Col>
+				)}
 			</Row>
 		</React.Fragment>
 	);

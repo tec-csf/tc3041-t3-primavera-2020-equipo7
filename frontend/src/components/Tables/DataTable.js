@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Button } from 'reactstrap';
-import ModalForm from '../Modals/Modal';
+import ModalForm from '../Modals/ModalForm';
 
 function DataTable(props) {
 	const deleteItem = (id) => {

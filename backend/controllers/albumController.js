@@ -1,5 +1,6 @@
 const albumSchema = require('../models/albums');
 const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 const bodyParser = require('body-parser');
 const albumsCollection = mongoose.model('album', albumSchema, 'albums');
 
@@ -60,20 +61,22 @@ exports.album_list = function (req, res) {
 };
 
 exports.album_create = function (req, res) {
-    let newAlbum = new albumSchema(req, bodyParser);
+    //const newAlbum = new albumSchema(req, bodyParser);
+    console.log(req.body)
+    /*
     newAlbum.save()
         .then(item => {
             res.status(201).send('Album added to database');
         })
         .catch(err => {
             res.status(400).send({ error: 'Unable to save album into database' })
-        });
-    // res.send('NOT IMPLEMENTED: Album create');
+        });*/
+    res.send('NOT IMPLEMENTED: Album create');
 };
 
 // Display Album delete form on GET.
 exports.album_delete = function (req, res) {
-    albumsCollection.deleteOne({ '_id': parseInt(req.params.id) }, (err, data) => {
+    albumsCollection.deleteOne({ '_id': ObjectId(req.params.id) }, (err, data) => {
         if (err) {
             console.log(err);
             res.status(400).send({ error: 'Album could not be deleted. Dependencies might still be active.' });
@@ -85,7 +88,9 @@ exports.album_delete = function (req, res) {
 
 // Display Album update form on GET.
 exports.album_update = function (req, res) {
-    id = req.params.id;
+  console.log(req.params.id)
+  console.log(req.body)
+    /*id = req.params.id;
     albumsCollection.findById(id, function (err, data) {
         let name = req.body.name;
         let launch_date = req.body.launch_date;
@@ -114,7 +119,7 @@ exports.album_update = function (req, res) {
             );
             res.status(201).send('Updated album successfully');
         }
-    });
+    });*/
     // res.send('NOT IMPLEMENTED: Album update');
 };
 
@@ -124,7 +129,7 @@ exports.album_detail = function (req, res) {
     albumsCollection.aggregate([
         {
             '$match': {
-                '_id': id_album
+                '_id': ObjectId(id_album)
             }
         }, {
             '$graphLookup': {
@@ -164,7 +169,34 @@ exports.album_search = function (req, res) {
             }
         }, {
             '$limit': 20
-        }
+        },{
+          '$lookup': {
+              'from': 'artists',
+              'localField': 'id_artist',
+              'foreignField': '_id',
+              'as': 'artist'
+          }
+      }, {
+          '$lookup': {
+              'from': 'companies',
+              'localField': 'id_company',
+              'foreignField': '_id',
+              'as': 'company'
+          }
+      }, {
+          '$unwind': {
+              'path': '$artist'
+          }
+      }, {
+          '$unwind': {
+              'path': '$company'
+          }
+      }, {
+          '$project': {
+              'id_company': 0,
+              'id_artist': 0
+          }
+      }
     ])
         .exec((err, data) => {
             if (err) {

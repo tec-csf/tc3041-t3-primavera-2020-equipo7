@@ -1,41 +1,41 @@
-import React, { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
+import React, { useState, /*useEffect*/ } from 'react';
+import { Button, Modal, ModalHeader, ModalBody, /*Spinner, Row, Col*/ } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 
-const  ModalForm = (props) => {
+const ModalForm = (props) => {
 
 	//console.log(props);
 
+	//modal controls
 	const [ modal, setModal ] = useState(false);
-
 	const toggle = () => {
 		setModal(!modal);
 	};
-
 	const closeBtn = (
 		<button className="close" onClick={toggle}>
 			&times;
 		</button>
 	);
 
-	const label = props.buttonLabel;
 	let button = '';
 	let title = '';
 
-	if (label === 'Edit') {
+	if (props.isEditing) {
 		button = (
 			<Button color="warning" onClick={toggle} style={{ float: 'left', marginRight: '10px' }}>
-				{label}
+				<FontAwesomeIcon icon={faPen} />
 			</Button>
 		);
-		title = 'Edit Item';
+		title = 'Editar';
 	} else {
 		button = (
 			<Button color="success" onClick={toggle} style={{ float: 'left', marginRight: '10px' }}>
-				{label}
+				{props.buttonLabel}
 			</Button>
 		);
-		title = 'Add New Item';
+		title = 'Agregar';
 	}
 
 	return (
@@ -46,22 +46,24 @@ const  ModalForm = (props) => {
 					{title}
 				</ModalHeader>
 				<ModalBody>
-					{<props.AddEditForm
-						addItemToState={props.addItemToState}
-						updateState={props.updateState}
-						toggle={toggle}
-						item={props.item}
-					/>}
+					<props.AddEditForm toggle={toggle} item={props.item} />
 				</ModalBody>
 			</Modal>
 		</div>
 	);
-}
+};
 
 ModalForm.propTypes = {
-	buttonLabel: PropTypes.string.isRequired,
-	AddEditForm: PropTypes.elementType.isRequired,
+	// only for create
+	buttonLabel: PropTypes.string,
+	// know if editing
+	isEditing: PropTypes.bool,
+	// if path
+	//path: PropTypes.string,
 
-}
+	item: PropTypes.object,
+	AddEditForm: PropTypes.elementType.isRequired,
+	updateState: PropTypes.func.isRequired
+};
 
 export default ModalForm;

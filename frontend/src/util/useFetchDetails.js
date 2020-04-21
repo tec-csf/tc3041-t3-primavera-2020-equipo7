@@ -1,41 +1,38 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import axios from './axios';
 
-export const useFetchDetails = (id) => {
-
+export const useFetchDetails = (path) => {
 	//con useRef si el value cambia no causa un re-render
 	const isCurrent = useRef(true);
 
 	//data
-	const [data, setData] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
+	const [ data, setData ] = useState([]);
+	const [ isLoading, setIsLoading ] = useState(true);
 
-	//location for pags
-	const currentUrl = useLocation().pathname;
-
-	const loadData = useCallback(() => {
-		//setData([]); //causes more renders, unneeded
-		setIsLoading(true);
-		console.log(
-			'Fetching ',
-			currentUrl,
-			'/', id
-		);
-		setTimeout(()=>{
-			if(isCurrent.current){
-				setData(prev => prev.concat('1'));
-				setIsLoading(false);
-			}
-		}, 700)
-	}, [currentUrl, id]);
-
+	const loadData = useCallback(
+		() => {
+			console.log('Axios Details: ', path);
+			setIsLoading(true);
+			axios
+				.get(path)
+				.then((res) => {
+					//console.log(res.data[0]);
+					if (isCurrent.current) {
+						setData(res.data);
+						setIsLoading(false);
+					}
+				})
+				.catch((err) => console.log(err));
+		},
+		[ path ]
+	);
 
 	useEffect(() => {
 		return () => {
 			//cuando se va lo cambia
 			isCurrent.current = false; //se accede con .current
-		}
+		};
 	}, []);
 
 	return { data, isLoading, loadData };
-}
+};

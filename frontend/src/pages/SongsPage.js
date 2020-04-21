@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
-import ModalForm from '../components/Modals/Modal';
+import ModalForm from '../components/Modals/ModalForm';
 import DataTable from '../components/Tables/DataTable';
 
 const Songs = () => {

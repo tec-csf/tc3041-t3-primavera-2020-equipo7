@@ -28,12 +28,9 @@ mongoose
 
 const catalogRouter = require('./routes/catalog');
 const bodyParser = require('body-parser');
-var cors = require('cors');
+const cors = require('cors');
 
-
-//app.use(cors())
-
-//////////////////////////////ENDPOINTS/////////////////////////////
+app.use(cors())
 app.use('/', catalogRouter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

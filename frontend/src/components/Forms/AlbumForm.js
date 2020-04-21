@@ -1,118 +1,84 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import React from 'react';
+import { Button, Form, FormGroup, Label, FormFeedback } from 'reactstrap';
+import PropTypes from 'prop-types';
+import { useForm } from 'react-hook-form';
+//own
+import SearchBar from '../SearchBar/FastSearch';
+import axios from '../../util/axios';
 
-function AddEditForm(props) {
-  const[form, setValues] = useState({
-    id: 0,
-    first: '',
-    last: '',
-    email: '',
-    phone: '',
-    location: '',
-    hobby: ''
-  })
+const AddEditAlbumForm = ({ item, toggle }) => {
+	const { register, handleSubmit, errors } = useForm();
 
-  const onChange = e => {
-    setValues({
-      ...form,
-      [e.target.name]: e.target.value
-    })
-  }
+	const onSubmitHandler = (data) => {
+		//console.log(data);
+		axios
+			.post(item ? '/albums/' : '/albums/' + item._id + '/', data)
+			.then((res) => {
+				//console.log(res);
+				toggle();
+			})
+			.catch((err) => console.log(err));
+	};
 
-  const submitFormAdd = e => {
-    e.preventDefault()
-    fetch('http://localhost:3000/crud', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        first: form.first,
-        last: form.last,
-        email: form.email,
-        phone: form.phone,
-        location: form.location,
-        hobby: form.hobby
-      })
-    })
-      .then(response => response.json())
-      .then(item => {
-        if(Array.isArray(item)) {
-          props.addItemToState(item[0])
-          props.toggle()
-        } else {
-          console.log('failure')
-        }
-      })
-      .catch(err => console.log(err))
-  }
+	//console.log(item);
+	//console.log(errors);
 
-  const submitFormEdit = e => {
-    e.preventDefault()
-    fetch('http://localhost:3000/crud', {
-      method: 'put',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: form.id,
-        first: form.first,
-        last: form.last,
-        email: form.email,
-        phone: form.phone,
-        location: form.location,
-        hobby: form.hobby
-      })
-    })
-      .then(response => response.json())
-      .then(item => {
-        if(Array.isArray(item)) {
-          // console.log(item[0])
-          props.updateState(item[0])
-          props.toggle()
-        } else {
-          console.log('failure')
-        }
-      })
-      .catch(err => console.log(err))
-  }
+	return (
+		<Form onSubmit={handleSubmit(onSubmitHandler)} autoComplete="off">
+			<FormGroup>
+				<Label for="name">Título</Label>
+				<input
+					className={errors.name ? 'is-invalid form-control' : 'form-control'}
+					type="text"
+					name="name"
+					id="name"
+					ref={register({ required: true })}
+					defaultValue={item ? item.name : null}
+				/>
+				{errors.name && <FormFeedback>Ingrese el título del álbum</FormFeedback>}
+			</FormGroup>
+			<FormGroup>
+				<Label for="launch_date">Fecha de lanzamiento</Label>
+				<input
+					className={errors.launch_date ? 'is-invalid form-control' : 'form-control'}
+					type="date"
+					name="launch_date"
+					id="launch_date"
+					ref={register({ required: true })}
+					defaultValue={item ? new Date(item.launch_date).toISOString().substr(0, 10) : null}
+				/>
+				{errors.launch_date && <FormFeedback>Ingrese la fecha de lanzamiento</FormFeedback>}
+			</FormGroup>
+			<FormGroup>
+				<Label for="email">Artista</Label>
+				<SearchBar
+					type="Artist"
+					name="id_artist"
+					text={item ? item.artist.name : null}
+					id={item ? item.artist._id : null}
+					errors={errors}
+					register={register}
+				/>
+			</FormGroup>
+			<FormGroup>
+				<Label for="phone">Disquera</Label>
+				<SearchBar
+					type="Company"
+					name="id_company"
+					text={item ? item.company.name : null}
+					id={item ? item.company._id : null}
+					errors={errors}
+					register={register}
+				/>
+			</FormGroup>
+			<Button color="primary">Confirmar</Button>
+		</Form>
+	);
+};
 
-  useEffect(() => {
-    if(props.item){
-      const { id, first, last, email, phone, location, hobby } = props.item
-      setValues({ id, first, last, email, phone, location, hobby })
-    }
-  }, false)
+AddEditAlbumForm.propTypes = {
+	toggle: PropTypes.func,
+	item: PropTypes.object
+};
 
-  return (
-    <Form onSubmit={props.item ? submitFormEdit : submitFormAdd}>
-      <FormGroup>
-        <Label for="first">First Name</Label>
-        <Input type="text" name="first" id="first" onChange={onChange} value={form.first === null ? '' : form.first} />
-      </FormGroup>
-      <FormGroup>
-        <Label for="last">Last Name</Label>
-        <Input type="text" name="last" id="last" onChange={onChange} value={form.last === null ? '' : form.last}  />
-      </FormGroup>
-      <FormGroup>
-        <Label for="email">Email</Label>
-        <Input type="email" name="email" id="email" onChange={onChange} value={form.email === null ? '' : form.email}  />
-      </FormGroup>
-      <FormGroup>
-        <Label for="phone">Phone</Label>
-        <Input type="text" name="phone" id="phone" onChange={onChange} value={form.phone === null ? '' : form.phone}  placeholder="ex. 555-555-5555" />
-      </FormGroup>
-      <FormGroup>
-        <Label for="location">Location</Label>
-        <Input type="text" name="location" id="location" onChange={onChange} value={form.location === null ? '' : form.location}  placeholder="City, State" />
-      </FormGroup>
-      <FormGroup>
-        <Label for="hobby">Hobby</Label>
-        <Input type="text" name="hobby" id="hobby" onChange={onChange} value={form.hobby}  />
-      </FormGroup>
-      <Button>Submit</Button>
-    </Form>
-  )
-}
-
-export default AddEditForm
+export default AddEditAlbumForm;
