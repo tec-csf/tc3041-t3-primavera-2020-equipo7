@@ -3,9 +3,9 @@ var Schema = mongoose.Schema;
 
 var albumSchema = new Schema({
     name: String,
-    launch_date: Date,
-    id_company: Number,
-    id_artist: Number
+    launch_date: String,
+    id_company: Schema.Types.ObjectId,
+    id_artist: Schema.Types.ObjectId
 });
 
 module.exports = albumSchema;

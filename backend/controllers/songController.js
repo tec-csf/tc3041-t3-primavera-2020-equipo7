@@ -57,7 +57,7 @@ exports.song_list = function (req, res) {
     // res.send('NOT IMPLEMENTED: Songs list');
 };
 
-// Display detail page for a specific book.
+// Display detail page for a specific song.
 exports.song_detail = function (req, res) {
     id_song = req.params.id;
     songsCollection.aggregate([
@@ -100,17 +100,14 @@ exports.song_detail = function (req, res) {
 
 // Handle Song create on POST.
 exports.song_create = function (req, res) {
-    // let newSong = new songSchema(req, bodyParser);
-
     let Song = mongoose.model('Song', songSchema);
-    //const id = req.body._id;
     const name = req.body.name;
     const duration = req.body.duration;
     const genres = req.body.genres;
-    const artist = req.body.artist;
-    const album = req.body.album;
+    const artist = new ObjectId(req.body.artist);
+    const album = new ObjectId(req.body.album);
 
-    let newSong = new Song({/*id,*/ name, duration, genres, artist, album});
+    let newSong = new Song({name, duration, genres, artist, album});
     newSong.save(function (err) {
         if (err) res.status(400).send({error: 'Unable to create song and add it to database'});
         res.status(201).send('Song successfully added to database');
@@ -125,7 +122,7 @@ exports.song_create = function (req, res) {
 };
 
 exports.song_delete = function (req, res) {
-    let id_song = parseInt(req.params.id);
+    const id_song = ObjectId(req.params.id);
     console.log('type of id song '+ typeof id_song);
     songsCollection.find({'_id' : id_song}, (err, data) =>{
         if (err) {

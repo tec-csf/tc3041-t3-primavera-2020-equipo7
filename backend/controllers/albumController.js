@@ -61,17 +61,21 @@ exports.album_list = function (req, res) {
 };
 
 exports.album_create = function (req, res) {
-    //const newAlbum = new albumSchema(req, bodyParser);
-    console.log(req.body)
-    /*
-    newAlbum.save()
-        .then(item => {
-            res.status(201).send('Album added to database');
-        })
-        .catch(err => {
-            res.status(400).send({ error: 'Unable to save album into database' })
-        });*/
-    res.send('NOT IMPLEMENTED: Album create');
+    const new_name = req.body.name;
+    const new_launch_date = req.body.launch_date;
+    const new_id_company = ObjectId(req.body.id_company);
+    const new_id_artist = ObjectId(req.body.id_artist);
+
+    const newAlbum = new albumsCollection({ "name": new_name, "launch_date": new_launch_date, "id_company": new_id_company, "id_artist": new_id_artist });
+    
+    newAlbum.save(function (err) {
+        if (err) {
+            console.log(err);
+            res.status(400).send({ error: 'Unable to save new album into database' })
+        }
+        res.status(201).send('Album added successfully to database');
+    });
+    // res.send('NOT IMPLEMENTED: Album create');
 };
 
 // Display Album delete form on GET.
@@ -86,42 +90,32 @@ exports.album_delete = function (req, res) {
     // res.send('NOT IMPLEMENTED: Album delete');
 };
 
-// Display Album update form on GET.
+// Display Album update form on post.
 exports.album_update = function (req, res) {
-  console.log(req.params.id)
-  console.log(req.body)
-    /*id = req.params.id;
-    albumsCollection.findById(id, function (err, data) {
-        let name = req.body.name;
-        let launch_date = req.body.launch_date;
-        let id_company = req.body.id_company;
-        let id_artist = req.body.artist;
-
-
-        if (!data) {
-            res.status(404).send({error:'No album found'})
-            console.log('No album found to be updated.');
+    const new_name = req.body.name;
+    const new_launch_date = req.body.launch_date;
+    const new_id_company = ObjectId(req.body.id_company);
+    const new_id_artist = ObjectId(req.body.artist);
+    console.log(req.params.id)
+    console.log(req.body)
+    id = ObjectId(req.params.id);
+    console.log('beginning update');
+    console.log(id);
+    
+    albumsCollection.where({"_id" : id})
+    .update({
+        "$set":
+        {
+            "name": new_name,
+            "launch_date": new_launch_date,
+            "id_company": new_id_company,
+            "id_artist": new_id_artist
         }
-        else {
-            songsCollection.update(
-                {
-                    '_id': req.params.id
-                },
-                {
-                    "$set":
-                    {
-                        "name": name,
-                        "launch_date": launch_date,
-                        "id_company": id_company,
-                        "id_artist": id_artist
-                    }
-                }
-            );
-            res.status(201).send('Updated album successfully');
-        }
-    });*/
-    // res.send('NOT IMPLEMENTED: Album update');
+    });
+    res.status(201).send('Updated album successfully');
 };
+    // res.send('NOT IMPLEMENTED: Album update');
+
 
 // Display detail page for a specific book.
 exports.album_detail = function (req, res) {
