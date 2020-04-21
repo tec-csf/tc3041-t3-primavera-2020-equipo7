@@ -8,5 +8,5 @@ var artistSchema = new Schema({
     birth_country: String
 });
 
-module.exports = (artistSchema);
+module.exports = artistSchema;
 // module.exports = mongoose.model('artists', artistSchema);
