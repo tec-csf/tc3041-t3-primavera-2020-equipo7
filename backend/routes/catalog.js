@@ -44,11 +44,11 @@ router.delete('/artists/:id/', artist_controller.artist_delete);
 // POST request to update artist.
 router.post('/artists/:id/', artist_controller.artist_update);
 
-// GET request for one artist.
-router.get('/artist/:id/', artist_controller.artist_detail);
-
 // GET request for list of all artists.
 router.get('/artists/:page_no/', artist_controller.artist_list);
+
+// POST artists by name
+router.get('/artist/:string/', artist_controller.artist_name);
 
 /// COMPANY ROUTES ///
 
