@@ -103,14 +103,14 @@ exports.song_create = function (req, res) {
     // let newSong = new songSchema(req, bodyParser);
 
     let Song = mongoose.model('Song', songSchema);
-    const id = req.body._id;
+    //const id = req.body._id;
     const name = req.body.name;
     const duration = req.body.duration;
     const genres = req.body.genres;
     const artist = req.body.artist;
     const album = req.body.album;
 
-    let newSong = new Song({id, name, duration, genres, artist, album});
+    let newSong = new Song({/*id,*/ name, duration, genres, artist, album});
     newSong.save(function (err) {
         if (err) res.status(400).send({error: 'Unable to create song and add it to database'});
         res.status(201).send('Song successfully added to database');
@@ -193,7 +193,34 @@ exports.song_search = function(req,res) {
             }
         }, {
             '$limit': 20
-        }
+        }, {
+          '$lookup': {
+              'from': 'artists',
+              'localField': 'id_artist',
+              'foreignField': '_id',
+              'as': 'artist'
+          }
+      }, {
+          '$lookup': {
+              'from': 'albums',
+              'localField': 'id_album',
+              'foreignField': '_id',
+              'as': 'album'
+          }
+      }, {
+          '$unwind' : {
+              'path' : '$album'
+          }
+      }, {
+          '$unwind' : {
+              'path' : '$artist'
+          }
+      }, {
+          '$project' : {
+              'id_artist' : 0,
+              'id_album' : 0
+          }
+      }
     ])
     .exec((err, data) => {
         if (err) {

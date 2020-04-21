@@ -1,32 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Row, Col } from 'reactstrap';
+//own
 import ModalForm from '../components/Modals/ModalForm';
-import DataTable from '../components/Tables/DataTable';
+import DataTable from '../components/Tables/SongsTable';
+import SongsForm from '../components/Forms/SongsForm';
+import { useFetch } from '../util/useFetch';
+import Loader from '../components/Loader';
+import Pagination from '../components/UI/Pagination';
+import IndexSearch from '../components/SearchBar/IndexSearch';
 
-const Songs = () => {
-	const [ items, setItems ] = useState([]);
+const SongsPage = () => {
 
-	const getItems = () => {
-		fetch('http://localhost:3000/crud')
-			.then((response) => response.json())
-			.then((items) => setItems(items))
-			.catch((err) => console.log(err));
-	};
-
-	const updateState = (item) => {
-		const itemIndex = items.findIndex((data) => data.id === item.id);
-		const newArray = [ ...items.slice(0, itemIndex), item, ...items.slice(itemIndex + 1) ];
-		setItems(newArray);
-	};
-
-	const deleteItemFromState = (id) => {
-		const updatedItems = items.filter((item) => item.id !== id);
-		setItems(updatedItems);
-	};
-
-	useEffect(() => {
-		getItems();
-	}, []);
+	const { loadData, isLoading, data, searchByName, isSearching } = useFetch();
+	//console.log(data)
 
 	return (
 		<React.Fragment>
@@ -37,16 +23,32 @@ const Songs = () => {
 			</Row>
 			<Row>
 				<Col>
-					<DataTable items={items} updateState={updateState} deleteItemFromState={deleteItemFromState} />
+					<ModalForm buttonLabel="Agregar Canción" AddEditForm={SongsForm} updateState={loadData}/>
+				</Col>
+				<Col>
+					<IndexSearch searcher={searchByName} type='Song' reloader={loadData}/>
+				</Col>
+				<Col>
+				{
+					!isSearching &&
+					<Pagination totalPages={Math.ceil(600060/30)}/>
+				}
 				</Col>
 			</Row>
 			<Row>
-				<Col>
-					<ModalForm buttonLabel="Add Item"  />
-				</Col>
+				{isLoading ? (
+					<Loader />
+				) : (
+					<Col>
+						<DataTable
+							items={data}
+							updateState={loadData}
+						/>
+					</Col>
+				)}
 			</Row>
 		</React.Fragment>
 	);
 };
 
-export default Songs;
+export default SongsPage;

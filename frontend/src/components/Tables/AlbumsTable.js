@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'reactstrap';
+import PropTypes from 'prop-types';
 //own
 import ModalForm from '../Modals/ModalForm';
 import AlbumForm from '../Forms/AlbumForm';
@@ -50,6 +51,13 @@ const AlbumsTable = (props) => {
 			</tbody>
 		</Table>
 	);
+};
+
+AlbumsTable.propTypes = {
+	/** Info para rendear */
+	items: PropTypes.array.isRequired,
+	/** refetch data */
+	updateState: PropTypes.func.isRequired
 };
 
 export default AlbumsTable;

@@ -15,6 +15,7 @@ const IndexSearch = (props) => {
 					props.searcher('/album/' + value);
 					break;
 				case 'Song':
+					props.searcher('/song/' + value);
 					break;
 				case 'Company':
 					break;

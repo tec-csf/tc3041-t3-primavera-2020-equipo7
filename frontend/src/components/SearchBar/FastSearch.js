@@ -92,7 +92,7 @@ const FastSearch = (props) => {
 				<FormGroup>
 					<Input
 						type="text"
-						placeholder="Seleccione"
+						placeholder="<-- Buscar"
 						readOnly
 						//disabled
 						value={finalCool.name ? finalCool.name : ''}

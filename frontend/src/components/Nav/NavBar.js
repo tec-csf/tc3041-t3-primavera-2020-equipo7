@@ -12,7 +12,7 @@ const TopNavBar = (props) => {
 				</NavLink>
 				<Nav className="mr-auto" navbar>
 					<NavItem>
-						<NavLink  to="/canciones/" className='nav-link'>
+						<NavLink  to="/songs/" className='nav-link'>
 							Canciones
 						</NavLink>
 					</NavItem>

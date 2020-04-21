@@ -10,11 +10,11 @@ const AddEditAlbumForm = ({ item, toggle }) => {
 	const { register, handleSubmit, errors } = useForm();
 
 	const onSubmitHandler = (data) => {
-		//console.log(data);
+		//console.log({...data, genres: data.genres.split('\n')});
 		axios
-			.post(!item ? '/albums/' : '/albums/' + item._id + '/', data)
-			.then((/*res*/) => {
-				//console.log(res);
+			.post(!item ? '/songs/' : '/songs/' + item._id + '/', {...data, genres: data.genres.split('\n')})
+			.then((res) => {
+				console.log(res);
 				toggle();
 			})
 			.catch((err) => console.log(err));
@@ -35,19 +35,30 @@ const AddEditAlbumForm = ({ item, toggle }) => {
 					ref={register({ required: true, pattern: /^[^-\s].*/ })}
 					defaultValue={item ? item.name : null}
 				/>
-				{errors.name && <FormFeedback>Ingrese el título del álbum</FormFeedback>}
+				{errors.name && <FormFeedback>Ingrese el título de la canción</FormFeedback>}
 			</FormGroup>
 			<FormGroup>
-				<Label for="launch_date">Fecha de lanzamiento</Label>
+				<Label for="duration">Duración (s)</Label>
 				<input
-					className={errors.launch_date ? 'is-invalid form-control' : 'form-control'}
-					type="date"
-					name="launch_date"
-					id="launch_date"
-					ref={register({ required: true })}
-					defaultValue={item ? new Date(item.launch_date).toISOString().substr(0, 10) : null}
+					className={errors.duration ? 'is-invalid form-control' : 'form-control'}
+					type="text"
+					name="duration"
+					id="duration"
+					ref={register({ required: true, pattern: /^[0-9]+/ })}
+					defaultValue={item ? item.duration : null}
 				/>
-				{errors.launch_date && <FormFeedback>Ingrese la fecha de lanzamiento</FormFeedback>}
+				{errors.duration && <FormFeedback>Ingrese la duración (sólo números)</FormFeedback>}
+			</FormGroup>
+			<FormGroup>
+				<Label>Generos</Label>
+				<textarea
+					className={errors.genres ? 'is-invalid form-control' : 'form-control'}
+					name="genres"
+					placeholder="Ingrese los generos separados por salto de línea"
+					ref={register({ required: true })}
+					defaultValue={item ? item.genres.join('\n') : null}
+				/>
+				{errors.genres && <FormFeedback>Ingrese al menos un género</FormFeedback>}
 			</FormGroup>
 			<FormGroup>
 				<Label>Artista</Label>
@@ -61,12 +72,12 @@ const AddEditAlbumForm = ({ item, toggle }) => {
 				/>
 			</FormGroup>
 			<FormGroup>
-				<Label>Disquera</Label>
+				<Label>Álbum</Label>
 				<SearchBar
-					type="Company"
-					name="id_company"
-					text={item ? item.company.name : null}
-					id={item ? item.company._id : null}
+					type="Album"
+					name="id_album"
+					text={item ? item.album.name : null}
+					id={item ? item.album._id : null}
 					errors={errors}
 					register={register}
 				/>
