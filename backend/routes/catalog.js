@@ -48,7 +48,7 @@ router.post('/artists/:id/', artist_controller.artist_update);
 router.get('/artists/:page_no/', artist_controller.artist_list);
 
 // POST artists by name
-router.get('/artist/:string/', artist_controller.artist_name);
+router.post('/artist/:string/', artist_controller.artist_name);
 
 /// COMPANY ROUTES ///
 

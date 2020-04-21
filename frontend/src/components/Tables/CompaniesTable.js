@@ -10,7 +10,7 @@ import ShowModal from '../Modals/ShowModal';
 import Map from '../Maps/Map';
 
 const CompaniesTable = (props) => {
-	console.log(props.items[0]);
+	//console.log(props.items[0]);
 	return (
 		<Table hover size="sm">
 			<thead>

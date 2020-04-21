@@ -42,7 +42,7 @@ const FastSearch = (props) => {
 		} else {
 			switch (props.type) {
 				case 'Artist':
-					searchByName('/album/' + value);
+					searchByName('/artist/' + value);
 					break;
 				case 'Album':
 					searchByName('/album/' + value);

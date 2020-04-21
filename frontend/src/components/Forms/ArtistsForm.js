@@ -56,12 +56,12 @@ const AddEditArtistsForm = ({ item, toggle }) => {
 					name="birth_country"
 					id="birth_country"
 					ref={register({ required: true, pattern: /^[^-\s].*/ })}
-					defaultValue={item ? item.name : null}
+					defaultValue={item ? item.birth_country : null}
 				/>
 				{errors.birth_country && <FormFeedback>Ingrese el país de origen</FormFeedback>}
 			</FormGroup>
 			<FormGroup>
-				<Label for="birth_date">Inicio como artista</Label>
+				<Label for="birth_date">Fecha de naciemiento</Label>
 				<input
 					className={errors.birth_date ? 'is-invalid form-control' : 'form-control'}
 					type="date"

@@ -29,8 +29,13 @@ const ArtistsTable = (props) => {
 						</Card.Description>
 					</Card.Content>
 					<Card.Content extra>
-						<Icon name="play circle" />
-						22 Canciones
+						{item.albums.length === 0 ? (
+							'Aún no hay álbumes disponibles'
+						) : (
+							<React.Fragment>
+								<Icon name="play circle" /> Álbumes
+							</React.Fragment>
+						)}
 					</Card.Content>
 					<Card.Content extra>
 						<div style={{ width: '110px' }}>
