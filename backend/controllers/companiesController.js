@@ -127,3 +127,26 @@ exports.companies_update = function (req, res) {
     }
   });
 };
+
+exports.companies_search = function (req,res) {
+  let desired_name = req.params.string;
+
+  companiesCollection.aggregate([
+    {
+      '$match': {
+        'name': {
+          '$regex': '(?i)' + desired_name
+        }
+      }
+    }, {
+      '$limit': 20
+    }
+  ])
+    .exec((err, data) => {
+      if (err) {
+        console.log(err);
+        res.status(404).send({ error: 'Oops. No company matches that name.' })
+      }
+      res.send(data);
+    });
+};

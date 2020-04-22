@@ -76,7 +76,7 @@ exports.artist_delete = function(req, res) {
 };
 
 // Display Artists that have that name
-exports.artist_name = function(req, res) {
+exports.artist_search = function(req, res) {
   let desired_name = req.params.string;
 
   artistsCollection
