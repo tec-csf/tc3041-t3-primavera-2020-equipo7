@@ -3,7 +3,7 @@ import { ListGroup, ListGroupItem, Badge } from 'reactstrap';
 
 const AlbumDetails = (props) => {
 
-	console.log(props)
+	//console.log(props)
 
 	return (
 		<ListGroup>

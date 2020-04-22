@@ -25,13 +25,13 @@ const Pag = props => {
 	<div className="float-right">
 	<Pagination
 		onPageChange={sendParamByPage}
-		boundaryRange={1}
+		//boundaryRange={1}
 		defaultActivePage={1}
 		//activePage={null}
-		ellipsisItem={null}
-		firstItem={null}
-		lastItem={null}
-		siblingRange={1}
+		//ellipsisItem={null}
+		//firstItem={null}
+		//lastItem={null}
+		//siblingRange={1}
 		totalPages={props.totalPages}
 	/></div>);
 }

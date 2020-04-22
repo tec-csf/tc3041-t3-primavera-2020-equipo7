@@ -8,9 +8,9 @@ import { useFetch } from '../util/useFetch';
 import Loader from '../components/Loader';
 import Pagination from '../components/UI/Pagination';
 import IndexSearch from '../components/SearchBar/IndexSearch';
+import CompanySearch from '../components/Serach/CompanySearch';
 
 const CompaniesPage = () => {
-
 	const { loadData, isLoading, data, searchByName, isSearching } = useFetch();
 
 	return (
@@ -22,29 +22,26 @@ const CompaniesPage = () => {
 			</Row>
 			<Row>
 				<Col>
-					<ModalForm buttonLabel="Agregar Disquera" AddEditForm={CompaniesForm} updateState={loadData}/>
+					<ModalForm buttonLabel="Agregar Disquera" AddEditForm={CompaniesForm} updateState={loadData} />
 				</Col>
 				<Col>
-					<IndexSearch searcher={searchByName} type='Company' reloader={loadData}/>
+					<IndexSearch searcher={searchByName} type="Company" reloader={loadData} />
 				</Col>
-				<Col>
-				{
-					!isSearching &&
-					<Pagination totalPages={Math.ceil(100060/30)}/>
-				}
-				</Col>
+				<Col>{!isSearching && <Pagination totalPages={Math.ceil(100060 / 30)} />}</Col>
 			</Row>
-			
-				{isLoading ? (
-					<Loader />
-				) : (
-					<div style={{marginTop:'50px'}}>
-						<DataTable
-							items={data}
-							updateState={loadData}
-						/>
-					</div>
-				)}
+
+			<div style={{ marginTop: '50px' }} />
+			<Col>
+				<CompanySearch searcher={searchByName}/>
+			</Col>
+
+			{isLoading ? (
+				<Loader />
+			) : (
+				<div style={{ marginTop: '50px' }}>
+					<DataTable items={data} updateState={loadData} />
+				</div>
+			)}
 		</React.Fragment>
 	);
 };
