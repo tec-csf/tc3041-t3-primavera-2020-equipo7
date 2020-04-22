@@ -1,12 +1,12 @@
-import React, { useState, /*useEffect*/ } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, /*Spinner, Row, Col*/ } from 'reactstrap';
+import React, { useState /*useEffect*/ } from 'react';
+import { Button, Modal, ModalHeader, ModalBody /*Spinner, Row, Col*/ } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { Button as CardButton, Card } from 'semantic-ui-react';
 
 const ModalForm = (props) => {
-
-	//console.log(props);
+	//console.log(props.isCard);
 
 	//modal controls
 	const [ modal, setModal ] = useState(false);
@@ -23,10 +23,14 @@ const ModalForm = (props) => {
 	let title = '';
 
 	if (props.isEditing) {
-		button = (
-			<Button color="warning" onClick={toggle} style={{ float: 'left', marginRight: '10px' }}>
+		button = !props.isCard ? (
+			<Button outline  onClick={toggle} style={{ float: 'left', marginRight: '10px' }}>
 				<FontAwesomeIcon icon={faPen} />
 			</Button>
+		) : (
+			<CardButton basic color="black" onClick={toggle}>
+				Editar
+			</CardButton>
 		);
 		title = 'Editar';
 	} else {
@@ -40,7 +44,7 @@ const ModalForm = (props) => {
 
 	return (
 		<div>
-			{button}
+			{props.isCard ? <Card.Content extra> {button} </Card.Content> : button}
 			<Modal isOpen={modal} toggle={toggle} className={props.className}>
 				<ModalHeader toggle={toggle} close={closeBtn}>
 					{title}
@@ -58,8 +62,8 @@ ModalForm.propTypes = {
 	buttonLabel: PropTypes.string,
 	// know if editing
 	isEditing: PropTypes.bool,
-	// if path
-	//path: PropTypes.string,
+	// if is card
+	isCard: PropTypes.bool,
 
 	item: PropTypes.object,
 	AddEditForm: PropTypes.elementType.isRequired,

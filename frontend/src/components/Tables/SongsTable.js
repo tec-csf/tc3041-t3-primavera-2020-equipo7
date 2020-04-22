@@ -1,13 +1,11 @@
 import React from 'react';
 import { Card, CardHeader, CardFooter, CardBody, CardTitle, Row, Col } from 'reactstrap';
-import { Label, Icon } from 'semantic-ui-react';
+import { Label,Icon, ButtonGroup } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 //own
 import ModalForm from '../Modals/ModalForm';
 import SongsForm from '../Forms/SongsForm';
 import DeleteModal from '../Modals/DeleteModal';
-// import ShowModal from '../Modals/ShowModal';
-// import AlbumDetails from '../Details/AlbumDetails';
 
 const SongsTable = (props) => {
 	//console.log(props.items[0]);
@@ -17,7 +15,9 @@ const SongsTable = (props) => {
 			{props.items.map((item) => (
 				<Col sm="4" key={item._id}>
 					<Card style={{ marginTop: '10px', marginBottom: '10px' }}>
-						<CardHeader tag="h3">{item.name}</CardHeader>
+						<CardHeader tag="h3">
+							<Icon size='small' name='music'/>
+							{item.name}</CardHeader>
 
 						<CardBody>
 							<CardTitle>
@@ -25,21 +25,18 @@ const SongsTable = (props) => {
 								{item.album.name}
 							</CardTitle>
 							<b>Autor: </b>
-							{/* <Label size="medium">
-								<Icon name="microphone" /> */}
 							{item.artist.name}
-							{/* </Label> */}
 						</CardBody>
 						<CardFooter>
-							<Label color="grey" size="mini">
+							<Label color="blue" size="mini">
 								<Icon name="play circle" />
 								{(item.duration / 60).toFixed(0) + ':' + item.duration % 60}
 							</Label>
-							<Label color="grey" size="mini">
+							<Label color="red" size="mini">
 								<Icon name="heart" />
 								{Math.floor(Math.random() * 750) + 100}
 							</Label>
-							<Label color="grey" size="mini">
+							<Label color="teal" size="mini">
 								<Icon name="chart bar" />
 								{Math.floor(Math.random() * 10000) + 1000}
 							</Label>
@@ -52,15 +49,18 @@ const SongsTable = (props) => {
 							))}
 						</CardFooter>
 						<CardFooter>
-							<div style={{ width: '110px' }}>
+							<ButtonGroup>
+
 								<ModalForm
+								isCard
 									isEditing
 									updateState={props.updateState}
 									AddEditForm={SongsForm}
 									item={item}
-								/>
-								<DeleteModal title={item.name} id={item._id} updateState={props.updateState} />
-							</div>
+									/>
+								<DeleteModal isCard title={item.name} id={item._id} updateState={props.updateState} />
+							
+									</ButtonGroup>
 						</CardFooter>
 					</Card>
 				</Col>

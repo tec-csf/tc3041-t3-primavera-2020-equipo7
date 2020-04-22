@@ -9,7 +9,7 @@ const AddEditArtistsForm = ({ item, toggle }) => {
 	const { register, handleSubmit, errors } = useForm();
 
 	const onSubmitHandler = (data) => {
-		console.log(data);
+		//console.log(data);
 		axios
 			.post(!item ? '/artists/' : '/artists/' + item._id + '/', data)
 			.then((/*res*/) => {

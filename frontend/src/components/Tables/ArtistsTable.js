@@ -1,20 +1,20 @@
 import React from 'react';
-import { Card, Icon } from 'semantic-ui-react';
+import { Card, Icon, Button, ButtonGroup } from 'semantic-ui-react';
+
 import PropTypes from 'prop-types';
 //own
 import ModalForm from '../Modals/ModalForm';
 import ArtistsForm from '../Forms/ArtistsForm';
 import DeleteModal from '../Modals/DeleteModal';
-
-//import ShowModal from '../Modals/ShowModal';
-//import AlbumDetails from '../Details/AlbumDetails';
+import ShowModal from '../Modals/ShowModal';
+import ArtistDetails from '../Details/ArtistDetails';
 
 const ArtistsTable = (props) => {
-	console.log(props.items[0]);
+	//console.log(props.items[0]);
 	return (
 		<Card.Group>
 			{props.items.map((item) => (
-				<Card key={item._id}>
+				<Card key={item._id} centered>
 					<Card.Content>
 						<Card.Header>{item.name.length <= 27 ? item.name : item.name.slice(0, 26) + '...'}</Card.Header>
 						<Card.Meta>
@@ -33,20 +33,26 @@ const ArtistsTable = (props) => {
 							'Aún no hay álbumes disponibles'
 						) : (
 							<React.Fragment>
-								<Icon name="play circle" /> Álbumes
+								<Icon name="play circle" /> {`${item.albums.length} Álbumes`}
 							</React.Fragment>
 						)}
 					</Card.Content>
 					<Card.Content extra>
-						<div style={{ width: '110px' }}>
+						<ButtonGroup>
+							<ShowModal title={item.name} Details={ArtistDetails} dontFetch item={item}>
+								<Button basic color="blue">
+									Mostrar
+								</Button>
+							</ShowModal>
 							<ModalForm
+								isCard
 								isEditing
 								updateState={props.updateState}
 								AddEditForm={ArtistsForm}
 								item={item}
 							/>
-							<DeleteModal title={item.name} id={item._id} updateState={props.updateState} />
-						</div>
+							<DeleteModal isCard title={item.name} id={item._id} updateState={props.updateState} />
+						</ButtonGroup>
 					</Card.Content>
 				</Card>
 			))}

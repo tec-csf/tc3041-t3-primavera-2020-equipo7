@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'reactstrap';
+import { Table, ButtonGroup } from 'reactstrap';
 import PropTypes from 'prop-types';
 //own
 import ModalForm from '../Modals/ModalForm';
@@ -40,15 +40,17 @@ const AlbumsTable = (props) => {
 						</td>
 						<td>{item.company.name}</td>
 						<td>
-							<div style={{ width: '110px' }}>
+						<ButtonGroup>
+
 								<ModalForm
 									isEditing
 									updateState={props.updateState}
 									AddEditForm={AlbumForm}
 									item={item}
-								/>
+									/>
 								<DeleteModal title={item.name} id={item._id} updateState={props.updateState} />
-							</div>
+									</ButtonGroup>
+							
 						</td>
 					</tr>
 				))}

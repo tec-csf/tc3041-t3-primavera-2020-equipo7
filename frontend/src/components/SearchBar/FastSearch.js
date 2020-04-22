@@ -51,7 +51,7 @@ const FastSearch = (props) => {
 					searchByName('/song/' + value);
 					break;
 				case 'Company':
-					searchByName('/album/' + value);
+					searchByName('/company/' + value);
 					break;
 				default:
 					console.log('Algo anda mal');

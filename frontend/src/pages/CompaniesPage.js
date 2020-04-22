@@ -34,18 +34,17 @@ const CompaniesPage = () => {
 				}
 				</Col>
 			</Row>
-			<Row>
+			
 				{isLoading ? (
 					<Loader />
 				) : (
-					<Col>
+					<div style={{marginTop:'50px'}}>
 						<DataTable
 							items={data}
 							updateState={loadData}
 						/>
-					</Col>
+					</div>
 				)}
-			</Row>
 		</React.Fragment>
 	);
 };

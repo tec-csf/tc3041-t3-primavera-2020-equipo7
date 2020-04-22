@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
+import { Button as CardButton } from 'semantic-ui-react';
 //own
 import axios from '../../util/axios';
 
@@ -26,9 +27,7 @@ const DeleteModal = (props) => {
 		//console.log('Borrando:', location.pathname, props.id);
 
 		axios
-			.delete(
-				location.pathname + props.id + '/'
-			)
+			.delete(location.pathname + props.id + '/')
 			.then(() => {
 				props.updateState();
 				setErrorDeleting(false);
@@ -44,10 +43,16 @@ const DeleteModal = (props) => {
 
 	return (
 		<div>
-			<Button color="danger" onClick={toggle}>
-				<FontAwesomeIcon icon={faTrashAlt} />
-			</Button>
-			<Modal isOpen={modal} toggle={toggle}>
+			{props.isCard ? (
+				<CardButton basic color="red" onClick={toggle}>
+					Eliminar
+				</CardButton>
+			) : (
+				<Button outline color="danger" onClick={toggle}>
+					<FontAwesomeIcon icon={faTrashAlt} />
+				</Button>
+			)}
+			<Modal isOpen={modal} toggle={toggle} centered>
 				<ModalHeader toggle={toggle} close={closeBtn}>
 					{'¿Desea eliminar ' + props.title + '?'}
 				</ModalHeader>
@@ -92,7 +97,8 @@ const DeleteModal = (props) => {
 DeleteModal.propTypes = {
 	title: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
-	updateState: PropTypes.func.isRequired
+	updateState: PropTypes.func.isRequired,
+	isCard: PropTypes.bool
 };
 
 export default DeleteModal;
