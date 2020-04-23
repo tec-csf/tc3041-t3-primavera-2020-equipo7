@@ -1,6 +1,5 @@
 const artistSchema = require('../models/artists');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const artistsCollection = mongoose.model('artist', artistSchema, 'artists');
 const ObjectId = mongoose.Types.ObjectId;
 

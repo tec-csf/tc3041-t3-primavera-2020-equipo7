@@ -1,7 +1,7 @@
 const companySchema = require('../models/companies');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const companiesCollection = mongoose.model('company', companySchema, 'companies');
+const artistsCollection = mongoose.model('artist', artistSchema, 'artists');
 const ObjectId = mongoose.Types.ObjectId;
 
 // Display list of all Authors.
@@ -9,23 +9,6 @@ exports.companies_list = function (req, res) {
   page_no = req.params.page_no;
   companiesCollection.aggregate([
     {
-      '$project': {
-        '_id': 1,
-        'name': 1,
-        'start_date': 1,
-        'coordinates': 1
-        // 'latitute': {
-        //   '$arrayElemAt': [
-        //     '$coordinates', 0
-        //   ]
-        // },
-        // 'longitude': {
-        //   '$arrayElemAt': [
-        //     '$coordinates', 1
-        //   ]
-        // }
-      }
-    }, {
       '$skip': 30 * (page_no - 1)
     }, {
       '$limit': 30
@@ -74,7 +57,7 @@ exports.companies_create = function (req, res) {
   let new_lat = parseFloat(req.body.lat)
   let new_long = parseFloat(req.body.long)
 
-  const newCompany = new companiesCollection({"name": new_name, "start_date": new_start_date, "coordinates": {"type" : "Point", "coordinates":[new_lat, new_long]}});
+  const newCompany = new companiesCollection({"name": new_name, "start_date": new_start_date, "coordinates": {"type" : "Point", "coordinates":[new_long, new_lat]}});
 
   newCompany.save(function (err) {
     if (err) {
@@ -114,7 +97,7 @@ exports.companies_update = function (req, res) {
     "start_date": new_start_date,
     "coordinates": {
       "type" : "Point",
-      "coordinates":[new_lat, new_long]
+      "coordinates":[new_long, new_lat]
     }
   }
 
@@ -149,4 +132,17 @@ exports.companies_search = function (req,res) {
       }
       res.send(data);
     });
+};
+
+exports.companies_total_signs = function (req, res) {
+	artistsCollection.aggregate(
+		
+	)
+		.exec((err, data) => {
+			if (err) {
+				console.log(err);
+				res.status(404).send({ error: 'Oops. No company matches that name.' })
+			}
+			res.send(data);
+		});
 };

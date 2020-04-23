@@ -92,5 +92,8 @@ router.post('/song/:string/', song_controller.song_search);
 //List songs with category filter (facet)
 router.get('/songs/categories/:page_no', song_controller.song_cats);
 
+//count all songs using get
+router.get('/songtotal/', song_controller.song_total);
+
 //EXPORTING all routers to the main app
 module.exports = router;

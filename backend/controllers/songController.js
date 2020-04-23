@@ -1,7 +1,6 @@
 const songSchema = require('../models/songs');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
-const bodyParser = require('body-parser');
 const songsCollection = mongoose.model('song', songSchema, 'songs');
 
 // Display list of all songs.
@@ -105,8 +104,8 @@ exports.song_create = function (req, res) {
     const name = req.body.name;
     const duration = req.body.duration;
     const genres = req.body.genres;
-    const next_song = req.body.next_song; //desactivar este
-    // const next_song = ObjectId(req.body.next_song);
+    // const next_song = req.body.next_song; //desactivar este
+    const next_song = ObjectId(req.body.next_song);
     const artist = ObjectId(req.body.artist);
     const album = ObjectId(req.body.album);
 
@@ -234,4 +233,20 @@ exports.song_cats = function (req, res) {
             }
             res.send(data);
         });  
+};
+
+exports.song_total = function (req, res) {
+    //lo regresa con el total
+    songsCollection.aggregate([
+        {
+            '$count': 'total'
+        }
+    ])
+    .exec((err, data) => {
+        if (err) {
+            console.log(err);
+            res.status(404).send({ error: 'Oops. No songs found.' })
+        }
+        res.send(data);
+    });  
 };
