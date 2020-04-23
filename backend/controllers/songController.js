@@ -1,7 +1,6 @@
 const songSchema = require('../models/songs');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
-const bodyParser = require('body-parser');
 const songsCollection = mongoose.model('song', songSchema, 'songs');
 
 // Display list of all songs.

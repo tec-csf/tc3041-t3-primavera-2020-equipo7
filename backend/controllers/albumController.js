@@ -1,8 +1,9 @@
 const albumSchema = require('../models/albums');
+const songSchema = require('../models/songs');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
-const bodyParser = require('body-parser');
 const albumsCollection = mongoose.model('album', albumSchema, 'albums');
+const songsCollection = mongoose.model('song', songSchema, 'songs');
 
 exports.index = function (req, res) {
     
@@ -80,7 +81,18 @@ exports.album_create = function (req, res) {
 
 // Display Album delete form on GET.
 exports.album_delete = function (req, res) {
-    albumsCollection.deleteOne({ '_id': ObjectId(req.params.id) }, (err, data) => {
+    let id = ObjectId(req.params.id);
+
+    songsCollection.deleteMany({id_album: id}, (err, data)  => {
+        if (err) {
+          //console.log(err);
+          res.status(400).send({ error: 'Could not delete album ahhh' });
+        } else {
+          res.status(200).send(data);    
+        }
+      });
+
+    albumsCollection.deleteOne({ '_id': id }, (err, data) => {
         if (err) {
             console.log(err);
             res.status(400).send({ error: 'Album could not be deleted. Dependencies might still be active.' });

@@ -1,6 +1,5 @@
 const companySchema = require('../models/companies');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const companiesCollection = mongoose.model('company', companySchema, 'companies');
 const ObjectId = mongoose.Types.ObjectId;
 

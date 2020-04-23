@@ -1,7 +1,10 @@
 const artistSchema = require('../models/artists');
+const songSchema = require('../models/songs');
+const albumSchema = require('../models/albums');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const artistsCollection = mongoose.model('artist', artistSchema, 'artists');
+const songsCollection = mongoose.model('song', songSchema, 'songs');
+const albumsCollection = mongoose.model('album', albumSchema, 'albums');
 const ObjectId = mongoose.Types.ObjectId;
 
 // Display list of all Authors.
@@ -63,14 +66,37 @@ exports.artist_create = function(req, res) {
 
 // Display Artist delete form on DELETE.
 exports.artist_delete = function(req, res) {
-  let id = req.params.id;
+  let id = ObjectId(req.params.id);
 
-  artistsCollection.deleteOne({ _id: ObjectId(id) }, (err, data) => {
+  songsCollection.deleteMany({id_artist: id},(err, data) => {
     if (err) {
-      console.log(err);
+      //console.log(err);
+      res.status(400).send({ error: 'Could not delete artist ahhh' });
+    } else {
+      //console.log(data);
+      //songsCollection.deleteMany({artist_id: id})
+      //albumsCollection.deleteMany({artist_id: id})
+      res.status(200).send(data);   
+    }
+  });
+  
+  albumsCollection.deleteMany({id_artist: id}, (err, data)  => {
+    if (err) {
+      //console.log(err);
+      res.status(400).send({ error: 'Could not delete artist ahhh' });
+    } else {
+      res.status(200).send(data);    
+    }
+  });
+  
+  artistsCollection.deleteOne({ _id: id }, (err, data) => {
+    if (err) {
+      //console.log(err);
       res.status(400).send({ error: 'Could not delete artist ahhh' });
     } else {
       res.status(200).send(data);
+      //songsCollection.deleteMany({artist_id: id})
+      //albumsCollection.deleteMany({artist_id: id})
     }
   });
 };
@@ -116,16 +142,14 @@ exports.artist_search = function(req, res) {
 exports.artist_update = function(req, res) {
   id = req.params.id;
   console.log('updating',id)
-  artistsCollection.findById(id, function(err, data) {
-    let new_name = req.body.name;
-    let new_start_date = req.body.start_date;
-    let new_birth_date = req.body.birth_date;
-    let new_birth_country = req.body.birth_country;
+  
+    const new_name = req.body.name;
+    const new_start_date = req.body.start_date;
+    const new_birth_date = req.body.birth_date;
+    const new_birth_country = req.body.birth_country;
 
-    if (!data) {
-      console.log('No artist found to be updated.');
-    } else {
-      artistsCollection.update(
+  
+      artistsCollection.updateOne(
         {
           _id: ObjectId(id)
         },
@@ -136,9 +160,13 @@ exports.artist_update = function(req, res) {
             birth_date: new_birth_date,
             birth_country: new_birth_country
           }
+        }, function(err, data){
+          if (err) {
+            console.log(err);
+            res.status(404).send({ error: 'Oops. No artist updated.' });
+          }
+          res.status(201).send('The artist updated correctly');
         }
       );
-      res.status(201).send('The artist updated correctly');
-    }
-  });
-};
+      
+      };
