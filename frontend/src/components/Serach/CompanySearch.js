@@ -3,20 +3,20 @@ import { Form, Button, Icon } from 'semantic-ui-react';
 import { FormFeedback } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
+import axios from '../../util/axios';
 
-const CompanySearch = (props) => {
+const CompanySearch = () => {
 	const [ km, setKm ] = useState(3);
 	const { register, handleSubmit, errors } = useForm();
 
 	const onSubmitHandler = (data) => {
 		console.log({ lat: parseFloat(data.lat), long: parseFloat(data.long), kms: km });
-		// axios
-		// 	.post(!item ? '/companies/' : '/companies/' + item._id + '/', {...data, lat: parseFloat(data.lat), long: parseFloat(data.long)})
-		// 	.then((/*res*/) => {
-		// 		//console.log(res);
-		// 		toggle();
-		// 	})
-		// 	.catch((err) => console.log(err));
+		axios
+			.post('/compsearch/', {...data, lat: parseFloat(data.lat), long: parseFloat(data.long)})
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => console.log(err));
 	};
 
 	return (

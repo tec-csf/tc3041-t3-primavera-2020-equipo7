@@ -50,7 +50,7 @@ router.get('/artists/:page_no/', artist_controller.artist_list);
 // POST artists by name
 router.post('/artist/:string/', artist_controller.artist_search);
 
-router.get('/artiststotal/', artist_controller.artist_total);
+router.get('/artist/', artist_controller.artist_total);
 
 /// COMPANY ROUTES ///
 
@@ -71,9 +71,9 @@ router.get('/companies/:page_no/', companies_controller.companies_list);
 
 router.post('/company/:string/', companies_controller. companies_search);
 
-router.post('/companysearch/', companies_controller. companies_geo);
+router.post('/compsearch/', companies_controller. companies_geo);
 
-router.get('/companiestotal/', companies_controller.companies_total_signs);
+router.get('/companie/', companies_controller.companies_total_signs);
 
 /// SONGS ROUTES ///
 
@@ -99,7 +99,7 @@ router.post('/song/:string/', song_controller.song_search);
 router.get('/songs/categories/:page_no', song_controller.song_cats);
 
 //count all songs using get
-router.get('/songtotal/', song_controller.song_total);
+router.get('/song/', song_controller.song_total);
 
 //EXPORTING all routers to the main app
 module.exports = router;

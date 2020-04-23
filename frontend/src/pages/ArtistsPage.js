@@ -8,10 +8,11 @@ import { useFetch } from '../util/useFetch';
 import Loader from '../components/Loader';
 import Pagination from '../components/UI/Pagination';
 import IndexSearch from '../components/SearchBar/IndexSearch';
+import NoRegs from '../components/UI/NoRegs';
 
 const Albums = () => {
 
-	const { loadData, isLoading, data, searchByName, isSearching } = useFetch();
+	const { loadData, isLoading, data, searchByName, isSearching, totalPages } = useFetch();
 
 	return (
 		<React.Fragment>
@@ -30,7 +31,7 @@ const Albums = () => {
 				<Col>
 				{
 					!isSearching &&
-					<Pagination totalPages={Math.ceil(100060/30)}/>
+					<Pagination totalPages={totalPages}/>
 				}
 				</Col>
 			</Row>
@@ -39,10 +40,11 @@ const Albums = () => {
 					<Loader />
 				) : (
 					<Col>
-						<DataTable
-							items={data}
-							updateState={loadData}
-						/>
+						{data.length === 0 ? (
+							<NoRegs />
+						) : (
+							<DataTable items={data} updateState={loadData} />
+						)}
 					</Col>
 				)}
 			</Row>

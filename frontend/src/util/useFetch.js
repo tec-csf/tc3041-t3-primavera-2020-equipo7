@@ -10,6 +10,7 @@ export const useFetch = (loadOnMount=true) => {
 	const [ data, setData ] = useState([]);
 	const [ isLoading, setIsLoading ] = useState(loadOnMount);
 	const [ isSearching, setIsSearching ] = useState(false);
+	const [ totalPages, setTotalPages ] = useState(0);  
 
 	//location for pags
 	const location = useLocation();
@@ -21,6 +22,7 @@ export const useFetch = (loadOnMount=true) => {
 		() => {
 			//setData([]);
 			console.log('Axios:', currentUrl + (currentPage == null ? '1' : currentPage) + '/');
+			getTotalPages();
 			setIsLoading(true);
 			setIsSearching(false);
 			axios
@@ -39,12 +41,12 @@ export const useFetch = (loadOnMount=true) => {
 		[ currentPage, currentUrl ]
 	);
 
-	const searchByName = useCallback((pathname) => {
+	const searchByName = useCallback((pathname, payload={}) => {
 		console.log('posting: ', pathname);
 		setIsSearching(true);
 		setIsLoading(true);
 		axios
-			.post(pathname)
+			.post(pathname, payload)
 			.then((res) => {
 				//console.log(res.data);
 				if (isCurrent.current) {
@@ -55,12 +57,14 @@ export const useFetch = (loadOnMount=true) => {
 			.catch((err) => console.log('searchByName:', err));
 	}, []);
 
-	// useEffect(
-	// 	() => {
-	// 		history.replace(currentUrl);
-	// 	},
-	// 	[ history, currentUrl ]
-	// );
+	const getTotalPages = useCallback(() => {
+		//console.log('pages: ', currentUrl.replace('s/', ''))
+		axios.get(currentUrl.replace('s/', ''))
+		.then(res => {
+			console.log('totals', res.data[0].total);
+			setTotalPages(Math.ceil(res.data[0].total / 30));
+		}).catch(err => console.log(err))
+	}, [currentUrl]);
 
 	// initial Load
 	useEffect(
@@ -69,7 +73,7 @@ export const useFetch = (loadOnMount=true) => {
 				loadData();
 			}
 		},
-		[ loadData, loadOnMount ]
+		[ loadData, loadOnMount , getTotalPages]
 	);
 
 	// to avoid set state when it is gone
@@ -80,5 +84,5 @@ export const useFetch = (loadOnMount=true) => {
 		};
 	}, []);
 
-	return { data, isLoading, loadData, searchByName, isSearching };
+	return { data, isLoading, loadData, searchByName, isSearching, totalPages };
 };

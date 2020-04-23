@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 //own
 import axios from '../../util/axios';
 
-const AddEditCompaniesForm = ({ item, toggle }) => {
+const AddEditCompaniesForm = ({ item, toggle, refresh }) => {
 	const { register, handleSubmit, errors } = useForm();
 
 	const onSubmitHandler = (data) => {
@@ -15,6 +15,7 @@ const AddEditCompaniesForm = ({ item, toggle }) => {
 			.then((/*res*/) => {
 				//console.log(res);
 				toggle();
+				refresh();
 			})
 			.catch((err) => console.log(err));
 	};
@@ -78,8 +79,9 @@ const AddEditCompaniesForm = ({ item, toggle }) => {
 };
 
 AddEditCompaniesForm.propTypes = {
-	toggle: PropTypes.func,
-	item: PropTypes.object
+	toggle: PropTypes.func.isRequired,
+	item: PropTypes.object,
+	refresh: PropTypes.func.isRequired
 };
 
 export default AddEditCompaniesForm;

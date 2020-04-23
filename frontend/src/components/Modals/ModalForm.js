@@ -50,7 +50,7 @@ const ModalForm = (props) => {
 					{title}
 				</ModalHeader>
 				<ModalBody>
-					<props.AddEditForm toggle={toggle} item={props.item} />
+					<props.AddEditForm toggle={toggle} item={props.item} refresh={props.updateState} />
 				</ModalBody>
 			</Modal>
 		</div>
