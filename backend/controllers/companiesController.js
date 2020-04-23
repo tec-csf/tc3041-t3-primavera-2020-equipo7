@@ -138,6 +138,53 @@ exports.companies_search = function (req,res) {
     });
 };
 
+
+exports.companies_geo = function (req, res) {
+
+  const long = req.body.long;
+  const lat = req.body.lat;
+  const kms = req.body.kms * 1000;
+
+  companiesCollection.aggregate([
+    {
+      '$geoNear': {
+        'near': {
+          'type': 'Point', 
+          'coordinates': [
+            long, lat
+          ]
+        }, 
+        'distanceField': 'dist.calculated', 
+        'maxDistance': kms, 
+        'includeLocs': 'dist.location', 
+        'spherical': true
+      }
+    }, {
+      '$project': {
+        '_id': 1, 
+        'name': 1, 
+        'start_date': 1, 
+        'coordinates': 1, 
+        'distance': '$dist.calculated'
+      }
+    }, {
+      '$sort': {
+        'distance': 1
+      }
+    }
+  ])
+      .exec((err, data) => {
+          if (err) {
+              console.log(err);
+              res.status(404).send({ error: 'Oops. No companies matches that name.' })
+          }
+          console.log(data);
+          
+          res.send(data);
+      });
+};
+
+
 exports.companies_total_signs = function (req, res) {
 	albumsCollection.aggregate([
 		{

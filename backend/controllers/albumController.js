@@ -6,7 +6,6 @@ const albumsCollection = mongoose.model('album', albumSchema, 'albums');
 const songsCollection = mongoose.model('song', songSchema, 'songs');
 
 exports.index = function (req, res) {
-    
     res.send('NOT IMPLEMENTED: Site Home Page');
 };
 
@@ -104,23 +103,33 @@ exports.album_delete = function (req, res) {
 
 // Display Album update form on post.
 exports.album_update = function (req, res) {
+    id = req.params.id;
+
     const new_name = req.body.name;
     const new_launch_date = req.body.launch_date;
     const new_id_company = ObjectId(req.body.id_company);
-    const new_id_artist = ObjectId(req.body.artist);
-    id = ObjectId(req.params.id);
+    const new_id_artist = ObjectId(req.body.id_artist);
 
-    albumsCollection.updateOne({_id : id}, 
+    albumsCollection.updateOne(
         {
-            $set:
-            {
+            _id : ObjectId(id)
+        }, {
+            $set: {
                 name: new_name,
                 launch_date: new_launch_date,
                 id_company: new_id_company,
                 id_artist: new_id_artist
             }
-        });
-    res.send('Album updated suscessfully');
+        }, function(err, data){
+            if (err) {
+              console.log(err);
+              res.status(404).send({ error: 'Oops. No album updated.' });
+            }
+            console.log(data);
+            
+            res.status(201).send('The album updated correctly');
+        }
+    );   
 };
 
 // Display detail page for a specific book.
@@ -194,6 +203,11 @@ exports.album_search = function (req, res) {
               'id_company': 0,
               'id_artist': 0
           }
+      },
+      {
+        '$sort': {
+          'name': -1
+        }
       }
     ])
         .exec((err, data) => {

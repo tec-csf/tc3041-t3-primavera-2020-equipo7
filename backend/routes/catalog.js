@@ -71,6 +71,8 @@ router.get('/companies/:page_no/', companies_controller.companies_list);
 
 router.post('/company/:string/', companies_controller. companies_search);
 
+router.post('/companysearch/', companies_controller. companies_geo);
+
 router.get('/companiestotal/', companies_controller.companies_total_signs);
 
 /// SONGS ROUTES ///
