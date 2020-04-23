@@ -33,6 +33,9 @@ router.get('/albums/:page_no/', album_controller.album_list);
 //Search for an album with its name
 router.post('/album/:string/', album_controller.album_search);
 
+//count all albums using get
+router.get('/albumstotal/', album_controller.album_total);
+
 /// artist ROUTES ///
 
 // POST request for creating Author.

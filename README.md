@@ -3,10 +3,10 @@
 ---
 
 ##### Integrantes:
-1. *[Poner aquí Nombre y Apellidos del integrante 1]* - *[Poner aquí su Matrícula]* - *[Poner aquí su campus]*
-2. *[Poner aquí Nombre y Apellidos del integrante 2]* - *[Poner aquí su Matrícula]* - *[Poner aquí su campus]*
-3. *[Poner aquí Nombre y Apellidos del integrante 3]* - *[Poner aquí su Matrícula]* - *[Poner aquí su campus]*
-4. *[Poner aquí Nombre y Apellidos del integrante 4]* - *[Poner aquí su Matrícula]* - *[Poner aquí su campus]*
+1. *[Poner aquí Nombre y Apellidos del integrante 1]* - *[Poner aquí su Matrícula]* - *Campus Santa Fe*
+2. *[Poner aquí Nombre y Apellidos del integrante 2]* - *[Poner aquí su Matrícula]* - *Campus Santa Fe*
+3. *Yann Le Lorier Bárcena* - *A01025977* - *Campus Santa Fe*
+4. *[Poner aquí Nombre y Apellidos del integrante 4]* - *[Poner aquí su Matrícula]* - *Campus Santa Fe*
 
 ---
 ## 1. Aspectos generales
@@ -56,7 +56,7 @@ A continuación aparecen descritos los diferentes elementos que forman parte de 
 
 ### 2.2 Arquitectura de la solución
 
-*[Incluya aquí un diagrama donde se aprecie la arquitectura de la solución propuesta, así como la interacción entre los diferentes componentes de la misma.]*
+![Arquitectura general de la solución](./images/arch.JPG)
 
 ### 2.3 Frontend
 
@@ -67,17 +67,64 @@ A continuación aparecen descritos los diferentes elementos que forman parte de 
 #### 2.3.3 Librerías de funciones o dependencias
 
 ### 2.4 Backend
+Utilizamos como backend JavaScript, con el ambiente de Node, express y el framework de Mongoose. La conexión con Mongo por medio de Mongoose permite el uso del Aggregation framework. Está implementado de manera a que es muy simple establecer conectividad por medio del código, sobre todo que se puede hacer el deploy de la base de datos directamente de MongoDB Compass.
 
-*[Incluya aquí una explicación de la solución utilizada para el backend de la tarea. No olvide incluir las ligas o referencias donde se puede encontrar información de los lenguajes de programación, frameworks y librerías utilizadas.]*
+En gran parte, el modelo que utilizamos para la organización de las rutas fue inspirado en el tutorial que se encuentra [aquí](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes).
 
 #### 2.4.1 Lenguaje de programación
+El lenguage de programación utilizado es JavaScript.
 #### 2.4.2 Framework
+https://mongoosejs.com/docs/
+
+Mongoose es un framework que permite la conectividad de manera simple a MongoDB. Dentro de sus funciones que más utilizamos están:
+- updateOne()
+- deleteOne()
+- deleteMany()
+
+Se trata de funciones que ya están optimizadas para el funcionamiento de MongoDB, asegurando consultas rápidas.
 #### 2.4.3 Librerías de funciones o dependencias
+Las dependencias para el funcionamiento correcto de la aplicación son principalemente node, y de preferencia npm y nvm. 
+
+Después, es necesario instalar express y mongoose para npm:
+```sh
+npm install mongoose --save
+```
+
+```sh
+npm install express --save
+```
 
 ## 2.5 Pasos a seguir para utilizar la aplicación
 
-*[Incluya aquí una guía paso a paso para poder utilizar la aplicación, desde la clonación del repositorio hasta el despliegue de la solución en una plataforma en la nube.]*
+### 2.5.1 Descargar MongoDB Compass
+Se puede encontrar en la página de Mongo:
+https://www.mongodb.com/products/compass
+
+Se necesitará registrar con usuario y contraseña.
+
+### 2.5.2 Creando un Cluster de MongoDB
+Una vez la instalación aplicada, es necesario crear la base de datos:
+
+![Creación del cluster](./images/buildCluster.png)
+
+### 2.5.3 Escogiendo los proveedores de servicio
+
+Puede elegir entre AWS, GCP o Azure, y también puede elegir la región en la que quiere tener el cluster. Este paso es gratis si no tiene aún ningún Cluster.
+
+![Elección del proveedor](./images/cloudProv.png)
+
+
+### 2.5.4 Inserción de datos
+
+Puede jalar información de un archivo CSV o bien de un .json, que encuentra en el siguiente [path](./scripts):
+
+![Importación de datos](./images/importData.png)
+
+### 2.5.5 Deploy
+MISSING
 
 ## 3. Referencias
 
-*[Incluya aquí las referencias a sitios de interés, datasets y cualquier otra información que haya utilizado para realizar la tarea y que le puedan ser de utilidad a otras personas que quieran usarlo como referencia]*
+- https://mongoosejs.com/docs/
+- https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes
+- https://mongoosejs.com/docs/geojson.html

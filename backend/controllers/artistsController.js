@@ -68,37 +68,31 @@ exports.artist_create = function(req, res) {
 exports.artist_delete = function(req, res) {
   let id = ObjectId(req.params.id);
 
-  songsCollection.deleteMany({id_artist: id},(err, data) => {
+  songsCollection.deleteMany({id_artist: id},(err) => {
     if (err) {
-      //console.log(err);
       res.status(400).send({ error: 'Could not delete artist ahhh' });
     } else {
-      //console.log(data);
-      //songsCollection.deleteMany({artist_id: id})
-      //albumsCollection.deleteMany({artist_id: id})
-      res.status(200).send(data);   
+      res.status(200);   
     }
   });
   
-  albumsCollection.deleteMany({id_artist: id}, (err, data)  => {
+  albumsCollection.deleteMany({id_artist: id}, (err)  => {
     if (err) {
-      //console.log(err);
-      res.status(400).send({ error: 'Could not delete artist ahhh' });
+      res.status(400).send({ error: 'Could not delete artist.'});
     } else {
-      res.status(200).send(data);    
+      res.status(200);    
     }
   });
   
-  artistsCollection.deleteOne({ _id: id }, (err, data) => {
+  artistsCollection.deleteOne({ _id: id }, (err) => {
     if (err) {
-      //console.log(err);
-      res.status(400).send({ error: 'Could not delete artist ahhh' });
+      res.status(400).send({ error: 'Could not delete artist' });
     } else {
-      res.status(200).send(data);
-      //songsCollection.deleteMany({artist_id: id})
-      //albumsCollection.deleteMany({artist_id: id})
+      res.status(200).send('Successfully deleted artist');
     }
   });
+
+
 };
 
 // Display Artists that have that name
