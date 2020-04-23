@@ -1,7 +1,8 @@
 const companySchema = require('../models/companies');
+const albumsSchema = require('../models/albums');
 const mongoose = require('mongoose');
 const companiesCollection = mongoose.model('company', companySchema, 'companies');
-const artistsCollection = mongoose.model('artist', artistSchema, 'artists');
+const albumsCollection = mongoose.model('album', albumsSchema, 'albums');
 const ObjectId = mongoose.Types.ObjectId;
 
 // Display list of all Authors.
@@ -82,31 +83,34 @@ exports.companies_delete = function (req, res) {
   });
 };
 
-// Display Company update form on GET.
+// Display Company update form on post.
 exports.companies_update = function (req, res) {
   id = req.params.id;
 
   let new_name = req.body.name
   let new_start_date = req.body.start_date
-  let new_lat = parseFloat(req.body.lat)
-  let new_long = parseFloat(req.body.long)
+  let new_long = req.body.long
+  let new_lat = req.body.lat
 
-  let filter = {'_id' : ObjectId(id)}
-  let update = {
-    "name": new_name,
-    "start_date": new_start_date,
-    "coordinates": {
-      "type" : "Point",
-      "coordinates":[new_long, new_lat]
-    }
-  }
-
-  companiesCollection.findOneAndUpdate(filter, update, function(err, data){
+  companiesCollection.updateOne(
+		  {
+			  _id: ObjectId(id)
+		  },
+		  {
+			  $set: {
+				  name: new_name,
+				  start_date: new_start_date,
+				  coordinates: {
+					  "type": "Point",
+					  "coordinates": [new_long, new_lat]
+				  }
+			  }
+		  }, function(err, data){
     if (err) {
       console.log(err);
-      res.status(400).send({error: 'Could not delete company ahhh'});
+      res.status(400).send({error: 'Could not update company'});
     }else {
-      res.status(200).send();
+      res.status(200).send('Successfully updated company');
     }
   });
 };
@@ -135,14 +139,16 @@ exports.companies_search = function (req,res) {
 };
 
 exports.companies_total_signs = function (req, res) {
-	artistsCollection.aggregate(
+	albumsCollection.aggregate([
+		{
+			'$count': 'total'
+		}
+	]).exec((err, data) => {
+		if (err) {
+			console.log(err);
+			res.status(404).send({ error: 'Oops. No company matches that name.' })
+		}
+		res.send(data);
 		
-	)
-		.exec((err, data) => {
-			if (err) {
-				console.log(err);
-				res.status(404).send({ error: 'Oops. No company matches that name.' })
-			}
-			res.send(data);
-		});
+	});
 };

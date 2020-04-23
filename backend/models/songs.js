@@ -5,8 +5,7 @@ var songSchema = new Schema({
     name: String,
     duration: Number,
     genres: [String],
-    next_song: Number, //desactivar este
-    // next_song: Schema.Types.ObjectId,
+    next_song: Schema.Types.ObjectId,
     id_artist: Schema.Types.ObjectId,
     id_album: Schema.Types.ObjectId
     });

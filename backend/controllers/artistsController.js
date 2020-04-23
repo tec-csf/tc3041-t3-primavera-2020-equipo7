@@ -169,4 +169,21 @@ exports.artist_update = function(req, res) {
         }
       );
       
-      };
+};
+
+exports.artist_total = function (req, res) {
+	artistsCollection.aggregate([
+		{
+			'$count': 'total'
+		}
+	]).exec((err, data) => {
+		if (err) {
+			console.log(err);
+			res.status(404).send({ error: 'Oops. No artists could be counted.' })
+		}
+		res.send(data);
+
+	});
+};
+
+      
