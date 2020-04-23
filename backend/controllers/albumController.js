@@ -217,3 +217,18 @@ exports.album_search = function (req, res) {
         });
     // res.send('album search by name not implemented')
 }
+
+exports.album_total = function(req, res) {
+    albumsCollection.aggregate([
+        {
+            '$count': 'total'
+        }
+    ])
+        .exec((err, data) => {
+            if (err) {
+                console.log(err);
+                res.status(404).send({ error: 'Oops. No albums found.' })
+            }
+            res.send(data);
+        });
+};
