@@ -69,6 +69,8 @@ router.get('/companies/:page_no/', companies_controller.companies_list);
 
 router.post('/company/:string/', companies_controller. companies_search);
 
+router.post('/companysearch/', companies_controller. companies_geo);
+
 /// SONGS ROUTES ///
 
 // POST request for creating song. 

@@ -20,7 +20,7 @@ exports.artist_list = function(req, res) {
       },
       {
         $sort: {
-          name: 1
+          name: -1
         }
       },
       {
@@ -118,6 +118,11 @@ exports.artist_search = function(req, res) {
         $limit: 20
       },
       {
+        $sort: {
+          name: -1
+        }
+      },
+      {
         $lookup: {
           from: 'albums',
           localField: '_id',
@@ -143,30 +148,29 @@ exports.artist_update = function(req, res) {
   id = req.params.id;
   console.log('updating',id)
   
-    const new_name = req.body.name;
-    const new_start_date = req.body.start_date;
-    const new_birth_date = req.body.birth_date;
-    const new_birth_country = req.body.birth_country;
+  const new_name = req.body.name;
+  const new_start_date = req.body.start_date;
+  const new_birth_date = req.body.birth_date;
+  const new_birth_country = req.body.birth_country;
 
-  
-      artistsCollection.updateOne(
-        {
-          _id: ObjectId(id)
-        },
-        {
-          $set: {
-            name: new_name,
-            start_date: new_start_date,
-            birth_date: new_birth_date,
-            birth_country: new_birth_country
-          }
-        }, function(err, data){
-          if (err) {
-            console.log(err);
-            res.status(404).send({ error: 'Oops. No artist updated.' });
-          }
-          res.status(201).send('The artist updated correctly');
-        }
-      );
-      
-      };
+
+  artistsCollection.updateOne(
+    {
+      _id: ObjectId(id)
+    },
+    {
+      $set: {
+        name: new_name,
+        start_date: new_start_date,
+        birth_date: new_birth_date,
+        birth_country: new_birth_country
+      }
+    }, function(err, data){
+      if (err) {
+        console.log(err);
+        res.status(404).send({ error: 'Oops. No artist updated.' });
+      }
+      res.status(201).send('The artist updated correctly');
+    }
+  );
+};
