@@ -176,10 +176,8 @@ exports.companies_geo = function (req, res) {
       .exec((err, data) => {
           if (err) {
               console.log(err);
-              res.status(404).send({ error: 'Oops. No companies matches that name.' })
-          }
-          console.log(data);
-          
+			  res.status(404).send({ error: 'Oops. No companies found in the area' })
+		  }
           res.send(data);
       });
 };

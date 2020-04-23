@@ -85,15 +85,14 @@ exports.album_delete = function (req, res) {
     songsCollection.deleteMany({id_album: id}, (err, data)  => {
         if (err) {
           //console.log(err);
-          res.status(400).send({ error: 'Could not delete album ahhh' });
+          res.status(400);
         } else {
-          res.status(200).send(data);    
+          res.status(200);    
         }
       });
 
     albumsCollection.deleteOne({ '_id': id }, (err) => {
         if (err) {
-            console.log(err);
             res.status(400).send({ error: 'Album could not be deleted. Dependencies might still be active.' });
         }
         res.status(200).send('album deleted sucessfully')
