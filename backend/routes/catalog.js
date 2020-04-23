@@ -50,6 +50,8 @@ router.get('/artists/:page_no/', artist_controller.artist_list);
 // POST artists by name
 router.post('/artist/:string/', artist_controller.artist_search);
 
+router.get('/artiststotal/', artist_controller.artist_total);
+
 /// COMPANY ROUTES ///
 
 // POST request for creating a company.
@@ -70,6 +72,8 @@ router.get('/companies/:page_no/', companies_controller.companies_list);
 router.post('/company/:string/', companies_controller. companies_search);
 
 router.post('/companysearch/', companies_controller. companies_geo);
+
+router.get('/companiestotal/', companies_controller.companies_total_signs);
 
 /// SONGS ROUTES ///
 

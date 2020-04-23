@@ -100,16 +100,14 @@ exports.song_detail = function (req, res) {
 
 // Handle Song create on POST.
 exports.song_create = function (req, res) {
-    // let Song = mongoose.model('Song', songSchema);
-    const name = req.body.name;
-    const duration = req.body.duration;
-    const genres = req.body.genres;
-    // const next_song = req.body.next_song; //desactivar este
-    const next_song = ObjectId(req.body.next_song);
-    const artist = ObjectId(req.body.artist);
-    const album = ObjectId(req.body.album);
+    const new_name = req.body.name;
+    const new_duration = req.body.duration;
+    const new_genres = req.body.genres;
+    const new_next_song = ObjectId(req.body.next_song);
+    const new_artist = ObjectId(req.body.artist);
+    const new_album = ObjectId(req.body.album);
 
-    const newSong = new songsCollection({"name": name, "duration": duration, "genres": genres, "next_song":next_song, "id_artist":artist, "id_album": album});
+    const newSong = new songsCollection({"name": new_name, "duration": new_duration, "genres": new_genres, "next_song": new_next_song, "id_artist": new_artist, "id_album": new_album});
     newSong.save(function (err) {
         if (err) res.status(400).send({error: 'Unable to create song and add it to database'});
         res.status(201).send('Song successfully added to database');
@@ -134,8 +132,7 @@ exports.song_update = function (req, res) {
     const new_name = req.body.name;
     const new_duration = req.body.duration;
     const new_genres = req.body.genres;
-    const new_next_song = req.body.next_song; //es con ObjectId
-    // const new_next_song = ObjectId(req.body.next_song);
+    const new_next_song = ObjectId(req.body.next_song);
     const new_artist = ObjectId(req.body.id_artist);
     const new_album = ObjectId(req.body.id_album);
     
@@ -151,8 +148,14 @@ exports.song_update = function (req, res) {
                 id_artist: new_artist,
                 id_album: new_album
             }
+        }, (err) => {
+            if (err) {
+                console.log(err);
+                res.status(400).send({ error: 'Could not update song ahhh' });
+            } else {
+                res.status(200).send("Song updated successfully");
+            }
         });
-    res.send('Song updated suscessfully');
 };
 
 exports.song_search = function(req,res) {

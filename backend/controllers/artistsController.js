@@ -153,7 +153,6 @@ exports.artist_update = function(req, res) {
   const new_birth_date = req.body.birth_date;
   const new_birth_country = req.body.birth_country;
 
-
   artistsCollection.updateOne(
     {
       _id: ObjectId(id)
@@ -173,4 +172,19 @@ exports.artist_update = function(req, res) {
       res.status(201).send('The artist updated correctly');
     }
   );
+};
+
+exports.artist_total = function (req, res) {
+	artistsCollection.aggregate([
+		{
+			'$count': 'total'
+		}
+	]).exec((err, data) => {
+		if (err) {
+			console.log(err);
+			res.status(404).send({ error: 'Oops. No artists could be counted.' })
+		}
+		res.send(data);
+
+	});
 };
