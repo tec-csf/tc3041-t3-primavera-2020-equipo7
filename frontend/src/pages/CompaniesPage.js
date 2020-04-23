@@ -9,9 +9,10 @@ import Loader from '../components/Loader';
 import Pagination from '../components/UI/Pagination';
 import IndexSearch from '../components/SearchBar/IndexSearch';
 import CompanySearch from '../components/Serach/CompanySearch';
+import NoRegs from '../components/UI/NoRegs';
 
 const CompaniesPage = () => {
-	const { loadData, isLoading, data, searchByName, isSearching } = useFetch();
+	const { loadData, isLoading, data, searchByName, isSearching, totalPages } = useFetch();
 
 	return (
 		<React.Fragment>
@@ -27,19 +28,19 @@ const CompaniesPage = () => {
 				<Col>
 					<IndexSearch searcher={searchByName} type="Company" reloader={loadData} />
 				</Col>
-				<Col>{!isSearching && <Pagination totalPages={Math.ceil(100060 / 30)} />}</Col>
+				<Col>{!isSearching && <Pagination totalPages={totalPages} />}</Col>
 			</Row>
 
 			<div style={{ marginTop: '50px' }} />
 			<Col>
-				<CompanySearch searcher={searchByName}/>
+				<CompanySearch searcher={searchByName} />
 			</Col>
 
 			{isLoading ? (
 				<Loader />
 			) : (
 				<div style={{ marginTop: '50px' }}>
-					<DataTable items={data} updateState={loadData} />
+					{data.length === 0 ? <NoRegs /> : <DataTable items={data} updateState={loadData} />}
 				</div>
 			)}
 		</React.Fragment>

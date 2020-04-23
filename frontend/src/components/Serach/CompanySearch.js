@@ -3,20 +3,20 @@ import { Form, Button, Icon } from 'semantic-ui-react';
 import { FormFeedback } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
+import axios from '../../util/axios';
 
-const CompanySearch = (props) => {
+const CompanySearch = () => {
 	const [ km, setKm ] = useState(3);
 	const { register, handleSubmit, errors } = useForm();
 
 	const onSubmitHandler = (data) => {
 		console.log({ lat: parseFloat(data.lat), long: parseFloat(data.long), kms: km });
-		// axios
-		// 	.post(!item ? '/companies/' : '/companies/' + item._id + '/', {...data, lat: parseFloat(data.lat), long: parseFloat(data.long)})
-		// 	.then((/*res*/) => {
-		// 		//console.log(res);
-		// 		toggle();
-		// 	})
-		// 	.catch((err) => console.log(err));
+		axios
+			.post('/compsearch/', { ...data, lat: parseFloat(data.lat), long: parseFloat(data.long) })
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => console.log(err));
 	};
 
 	return (
@@ -28,9 +28,13 @@ const CompanySearch = (props) => {
 						placeholder="Latitud"
 						type="text"
 						name="lat"
-						ref={register({ required: true, pattern: /^-?[0-9]+\.[0-9]+/ })}
+						ref={register({
+							required: true,
+							pattern: /^-?[0-9]+\.[0-9]+/,
+							validate: (n) => parseFloat(n) >= -90 && parseFloat(n) <= 90
+						})}
 					/>
-					{errors.lat && <FormFeedback>Ingrese una coordenada válida</FormFeedback>}
+					{errors.lat && <FormFeedback>Ingrese una coordenada válida [-90.00,90.00]</FormFeedback>}
 				</Form.Field>
 				<Form.Field>
 					<input
@@ -38,9 +42,13 @@ const CompanySearch = (props) => {
 						type="text"
 						name="long"
 						placeholder="Longitud"
-						ref={register({ required: true, pattern: /^-?[0-9]+\.[0-9]+/ })}
+						ref={register({
+							required: true,
+							pattern: /^-?[0-9]+\.[0-9]+/,
+							validate: (n) => parseFloat(n) >= -180 && parseFloat(n) <= 180
+						})}
 					/>
-					{errors.long && <FormFeedback>Ingrese una coordenada válida</FormFeedback>}
+					{errors.long && <FormFeedback>Ingrese una coordenada válida [-180.00, 180.00]</FormFeedback>}
 				</Form.Field>
 				<Form.Field>
 					<input

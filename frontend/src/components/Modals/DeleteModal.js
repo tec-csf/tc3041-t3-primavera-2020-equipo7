@@ -29,10 +29,10 @@ const DeleteModal = (props) => {
 		axios
 			.delete(location.pathname + props.id + '/')
 			.then(() => {
-				props.updateState();
 				setErrorDeleting(false);
 				setIsDeleting(false);
-				toggle();
+				props.updateState();
+				//toggle();
 			})
 			.catch((err) => {
 				console.log(err);
