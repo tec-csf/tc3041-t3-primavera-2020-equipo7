@@ -126,33 +126,31 @@ exports.album_update = function (req, res) {
 // Display detail page for a specific book.
 exports.album_detail = function (req, res) {
     id_album = req.params.id;
-    albumsCollection.aggregate([
-        {
-            '$match': {
-                '_id': ObjectId(id_album)
+
+    songsCollection.aggregate(
+        [
+            {
+                '$match': {
+                    'id_album': ObjectId(id_album)
+                }
+            }, {
+                '$graphLookup': {
+                    'from': 'songs',
+                    'startWith': '$next_song',
+                    'connectFromField': 'next_song',
+                    'connectToField': '_id',
+                    'as': 'in_queue',
+                    'maxDepth': 5
+                }
             }
-        }, {
-            '$graphLookup': {
-                'from': 'songs',
-                'startWith': '$next_song',
-                'connectFromField': 'next_song',
-                'connectToField': '_id',
-                'as': 'NextToPlay',
-                'maxDepth': 3
-            }
-        }, {
-            '$project': {
-                'id_company': 0,
-                'id_artist': 0
-            }
-        }
-    ])
-    .exec((err, data) => {
+        ]
+    ).exec((err, data) => {
         if (err) {
             console.log(err);
             res.status(404).send({ error: 'Oops. No song matches that ID.' })
         }
-        res.send(data);
+        res.status(200).send(data);
+        
     });
     // res.send('NOT IMPLEMENTED: Book detail: ' + req.params.id);
 };
