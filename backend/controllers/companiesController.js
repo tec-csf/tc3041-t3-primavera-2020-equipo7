@@ -13,6 +13,8 @@ exports.companies_list = function (req, res) {
       '$skip': 30 * (page_no - 1)
     }, {
       '$limit': 30
+    }, {
+      '$sort' : 1
     }
   ])
   .exec((err, data) => {

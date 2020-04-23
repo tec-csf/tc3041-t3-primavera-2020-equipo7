@@ -48,7 +48,15 @@ Como parte de la entrega de la tarea, se debe incluir la siguiente información:
 
 ## 2. Solución
 
-A continuación aparecen descritos los diferentes elementos que forman parte de la solución de la tarea.
+MERN Stack Development
+
+Se trata de tecnologías basadas en JavaScript para desarrollar aplicaciones web en:
+- **M** : MongoDB
+- **E** : Express JS
+- **R** : React JS
+- **N** : Node JS
+
+Al usar estas herramientas, es muy fácil construir aplicaciones web, permite flexibilidad porque el desarrollador puede elegir qué plug-ins necesita para su caso de uso específico.
 
 ### 2.1 Modelo de la *base de datos* 
 
@@ -60,11 +68,33 @@ A continuación aparecen descritos los diferentes elementos que forman parte de 
 
 ### 2.3 Frontend
 
-*[Incluya aquí una explicación de la solución utilizada para el frontend de la tarea. No olvide incluir las ligas o referencias donde se puede encontrar información de los lenguajes de programación, frameworks y librerías utilizadas.]*
-
 #### 2.3.1 Lenguaje de programación
+El lenguaje de programación utilizado es JavaScript
 #### 2.3.2 Framework
+El framework utilizado es el de React, que permite construir la interfaz gráfica de la aplicación, finalmente hace las operaciones lógicas para pedir información al API.
+
 #### 2.3.3 Librerías de funciones o dependencias
+
+En el caso del frontend, se encuentran las siguientes dependencias:
+
+```json
+
+"dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "@fortawesome/react-fontawesome": "^0.1.9",
+    "axios": "^0.19.2",
+    "bootstrap": "^4.3.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5",
+    "react-hook-form": "^5.5.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "2.1.8",
+    "reactstrap": "^8.4.1",
+    "semantic-ui-react": "^0.88.2"
+}
+```
 
 ### 2.4 Backend
 Utilizamos como backend JavaScript, con el ambiente de Node, express y el framework de Mongoose. La conexión con Mongo por medio de Mongoose permite el uso del Aggregation framework. Está implementado de manera a que es muy simple establecer conectividad por medio del código, sobre todo que se puede hacer el deploy de la base de datos directamente de MongoDB Compass.
@@ -83,16 +113,16 @@ Mongoose es un framework que permite la conectividad de manera simple a MongoDB.
 
 Se trata de funciones que ya están optimizadas para el funcionamiento de MongoDB, asegurando consultas rápidas.
 #### 2.4.3 Librerías de funciones o dependencias
-Las dependencias para el funcionamiento correcto de la aplicación son principalemente node, y de preferencia npm y nvm. 
-
-Después, es necesario instalar express y mongoose para npm:
-```sh
-npm install mongoose --save
+```json
+"dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.7",
+    "nodemon": "^2.0.3"
+  }
 ```
 
-```sh
-npm install express --save
-```
 
 ## 2.5 Pasos a seguir para utilizar la aplicación
 
