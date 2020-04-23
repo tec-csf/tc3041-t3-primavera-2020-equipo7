@@ -21,8 +21,7 @@ export const useFetch = (loadOnMount=true) => {
 	const loadData = useCallback(
 		() => {
 			//setData([]);
-			console.log('Axios:', currentUrl + (currentPage == null ? '1' : currentPage) + '/');
-			getTotalPages();
+			//console.log('Axios:', currentUrl + (currentPage == null ? '1' : currentPage) + '/');
 			setIsLoading(true);
 			setIsSearching(false);
 			axios
@@ -42,7 +41,7 @@ export const useFetch = (loadOnMount=true) => {
 	);
 
 	const searchByName = useCallback((pathname, payload={}) => {
-		console.log('posting: ', pathname);
+		//console.log('posting: ', pathname);
 		setIsSearching(true);
 		setIsLoading(true);
 		axios
@@ -61,7 +60,7 @@ export const useFetch = (loadOnMount=true) => {
 		//console.log('pages: ', currentUrl.replace('s/', ''))
 		axios.get(currentUrl.replace('s/', ''))
 		.then(res => {
-			console.log('totals', res.data[0].total);
+			//console.log('totals', res.data[0].total);
 			setTotalPages(Math.ceil(res.data[0].total / 30));
 		}).catch(err => console.log(err))
 	}, [currentUrl]);
@@ -71,6 +70,7 @@ export const useFetch = (loadOnMount=true) => {
 		() => {
 			if(loadOnMount){
 				loadData();
+				getTotalPages();
 			}
 		},
 		[ loadData, loadOnMount , getTotalPages]

@@ -11,7 +11,7 @@ export const useFetchDetails = (path) => {
 
 	const loadData = useCallback(
 		() => {
-			console.log('Axios Details: ', path);
+			//console.log('Axios Details: ', path);
 			setIsLoading(true);
 			axios
 				.get(path)

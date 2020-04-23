@@ -8,10 +8,10 @@ import { useFetch } from '../util/useFetch';
 import Loader from '../components/Loader';
 import Pagination from '../components/UI/Pagination';
 import IndexSearch from '../components/SearchBar/IndexSearch';
+import NoRegs from '../components/UI/NoRegs';
 
 const Albums = () => {
-
-	const { loadData, isLoading, data, searchByName, isSearching } = useFetch();
+	const { loadData, isLoading, data, searchByName, isSearching, totalPages } = useFetch();
 
 	return (
 		<React.Fragment>
@@ -22,27 +22,19 @@ const Albums = () => {
 			</Row>
 			<Row>
 				<Col>
-					<ModalForm buttonLabel="Agregar Álbum" AddEditForm={AlbumForm} updateState={loadData}/>
+					<ModalForm buttonLabel="Agregar Álbum" AddEditForm={AlbumForm} updateState={loadData} />
 				</Col>
 				<Col>
-					<IndexSearch searcher={searchByName} type='Album' reloader={loadData}/>
+					<IndexSearch searcher={searchByName} type="Album" reloader={loadData} />
 				</Col>
-				<Col>
-				{
-					!isSearching &&
-					<Pagination totalPages={Math.ceil(200060/30)}/>
-				}
-				</Col>
+				<Col>{!isSearching && <Pagination totalPages={totalPages} />}</Col>
 			</Row>
 			<Row>
 				{isLoading ? (
 					<Loader />
 				) : (
 					<Col>
-						<DataTable
-							items={data}
-							updateState={loadData}
-						/>
+						<Col>{data.length === 0 ? <NoRegs /> : <DataTable items={data} updateState={loadData} />}</Col>
 					</Col>
 				)}
 			</Row>

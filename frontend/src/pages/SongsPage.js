@@ -34,13 +34,7 @@ const SongsPage = () => {
 				{isLoading ? (
 					<Loader />
 				) : (
-					<Col>
-						{data.length === 0 ? (
-							<NoRegs />
-						) : (
-							<DataTable items={data} updateState={loadData} />
-						)}
-					</Col>
+					<Col>{data.length === 0 ? <NoRegs /> : <DataTable items={data} updateState={loadData} />}</Col>
 				)}
 			</Row>
 		</React.Fragment>

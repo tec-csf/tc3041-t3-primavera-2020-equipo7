@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import SearchBar from '../SearchBar/FastSearch';
 import axios from '../../util/axios';
 
-const AddEditSongsForm = ({ item, refresh }) => {
+const AddEditSongsForm = ({ item, refresh, toggle }) => {
 	const { register, handleSubmit, errors } = useForm();
 
 	const onSubmitHandler = (data) => {
@@ -14,7 +14,7 @@ const AddEditSongsForm = ({ item, refresh }) => {
 		axios
 			.post(!item ? '/songs/' : '/songs/' + item._id + '/', {...data, genres: data.genres.split('\n')})
 			.then(() => {
-				//console.log(res);
+				toggle();
 				refresh();
 			})
 			.catch((err) => console.log(err));
@@ -88,7 +88,7 @@ const AddEditSongsForm = ({ item, refresh }) => {
 };
 
 AddEditSongsForm.propTypes = {
-	//toggle: PropTypes.func,
+	toggle: PropTypes.func.isRequired,
 	item: PropTypes.object,
 	refresh: PropTypes.func.isRequired
 };

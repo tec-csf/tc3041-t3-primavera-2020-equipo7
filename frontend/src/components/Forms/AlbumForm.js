@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import SearchBar from '../SearchBar/FastSearch';
 import axios from '../../util/axios';
 
-const AddEditAlbumForm = ({ item, toggle }) => {
+const AddEditAlbumForm = ({ item, toggle, refresh }) => {
 	const { register, handleSubmit, errors } = useForm();
 
 	const onSubmitHandler = (data) => {
@@ -14,8 +14,8 @@ const AddEditAlbumForm = ({ item, toggle }) => {
 		axios
 			.post(!item ? '/albums/' : '/albums/' + item._id + '/', data)
 			.then((/*res*/) => {
-				//console.log(res);
 				toggle();
+				refresh();
 			})
 			.catch((err) => console.log(err));
 	};
@@ -77,8 +77,9 @@ const AddEditAlbumForm = ({ item, toggle }) => {
 };
 
 AddEditAlbumForm.propTypes = {
-	toggle: PropTypes.func,
-	item: PropTypes.object
+	toggle: PropTypes.func.isRequired,
+	item: PropTypes.object,
+	refresh: PropTypes.func.isRequired
 };
 
 export default AddEditAlbumForm;

@@ -34,7 +34,7 @@ router.get('/albums/:page_no/', album_controller.album_list);
 router.post('/album/:string/', album_controller.album_search);
 
 //count all albums using get
-router.get('/albumstotal/', album_controller.album_total);
+router.get('/album/', album_controller.album_total);
 
 /// artist ROUTES ///
 

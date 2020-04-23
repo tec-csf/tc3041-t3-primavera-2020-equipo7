@@ -1,21 +1,25 @@
 import React from 'react';
-import { ListGroup, ListGroupItem, Badge } from 'reactstrap';
+import { ListGroup, ListGroupItem } from 'reactstrap';
+import { Label, Icon } from 'semantic-ui-react';
 
 const AlbumDetails = (props) => {
-
-	//console.log(props)
+	//console.log(props.item);
 
 	return (
 		<ListGroup>
-			<ListGroupItem className="justify-content-between">
-				Cancion 1 <Badge pill>14:10</Badge>
-			</ListGroupItem>
-			<ListGroupItem className="justify-content-between">
-				Cancion 2<Badge pill>3:53</Badge>
-			</ListGroupItem>
-			<ListGroupItem className="justify-content-between">
-				Cancion 3 <Badge pill>0:30</Badge>
-			</ListGroupItem>
+			{props.item ? (
+				props.item.in_queue.map((song) => (
+					<ListGroupItem className="justify-content-between" key={song._id}>
+						{song.name}{' '}
+						<Label color="blue" size="mini">
+							<Icon name="play circle" />
+							{(song.duration / 60).toFixed(0) + ':' + song.duration % 60}
+						</Label>
+					</ListGroupItem>
+				))
+			) : (
+				<p> Aún no hay canciones en este álbum </p>
+			)}
 		</ListGroup>
 	);
 };

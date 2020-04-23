@@ -11,12 +11,18 @@ const AddEditCompaniesForm = ({ item, toggle, refresh }) => {
 	const onSubmitHandler = (data) => {
 		//console.log({...data, lat: parseFloat(data.lat), long: parseFloat(data.long)});
 		axios
-			.post(!item ? '/companies/' : '/companies/' + item._id + '/', {...data, lat: parseFloat(data.lat), long: parseFloat(data.long)})
-			.then((/*res*/) => {
-				//console.log(res);
-				toggle();
-				refresh();
+			.post(!item ? '/companies/' : '/companies/' + item._id + '/', {
+				...data,
+				lat: parseFloat(data.lat),
+				long: parseFloat(data.long)
 			})
+			.then(
+				(/*res*/) => {
+					//console.log(res);
+					toggle();
+					refresh();
+				}
+			)
 			.catch((err) => console.log(err));
 	};
 
@@ -56,10 +62,14 @@ const AddEditCompaniesForm = ({ item, toggle, refresh }) => {
 					type="text"
 					name="lat"
 					id="lat"
-					ref={register({ required: true, pattern: /^-?[0-9]+\.[0-9]+$/ })}
+					ref={register({
+						required: true,
+						pattern: /^-?[0-9]+\.[0-9]+$/,
+						validate: (n) => parseFloat(n) >= -90 && parseFloat(n) <= 90
+					})}
 					defaultValue={item ? item.coordinates.coordinates[0] : null}
 				/>
-				{errors.lat && <FormFeedback>Ingrese una coordenada válida</FormFeedback>}
+				{errors.lat && <FormFeedback>Ingrese una coordenada válida [-90.00,90.00]</FormFeedback>}
 			</FormGroup>
 			<FormGroup>
 				<Label for="long">Longitud</Label>
@@ -68,10 +78,14 @@ const AddEditCompaniesForm = ({ item, toggle, refresh }) => {
 					type="text"
 					name="long"
 					id="long"
-					ref={register({ required: true, pattern: /^-?[0-9]+\.[0-9]+/ })}
+					ref={register({
+						required: true,
+						pattern: /^-?[0-9]+\.[0-9]+/,
+						validate: (n) => parseFloat(n) >= -180 && parseFloat(n) <= 180
+					})}
 					defaultValue={item ? item.coordinates.coordinates[1] : null}
 				/>
-				{errors.long && <FormFeedback>Ingrese una coordenada válida</FormFeedback>}
+				{errors.long && <FormFeedback>Ingrese una coordenada válida [-180.00, 180.00]</FormFeedback>}
 			</FormGroup>
 			<Button color="primary">Confirmar</Button>
 		</Form>

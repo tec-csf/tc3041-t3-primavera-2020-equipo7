@@ -12,7 +12,7 @@ const CompanySearch = () => {
 	const onSubmitHandler = (data) => {
 		console.log({ lat: parseFloat(data.lat), long: parseFloat(data.long), kms: km });
 		axios
-			.post('/compsearch/', {...data, lat: parseFloat(data.lat), long: parseFloat(data.long)})
+			.post('/compsearch/', { ...data, lat: parseFloat(data.lat), long: parseFloat(data.long) })
 			.then((res) => {
 				console.log(res);
 			})
@@ -28,9 +28,13 @@ const CompanySearch = () => {
 						placeholder="Latitud"
 						type="text"
 						name="lat"
-						ref={register({ required: true, pattern: /^-?[0-9]+\.[0-9]+/ })}
+						ref={register({
+							required: true,
+							pattern: /^-?[0-9]+\.[0-9]+/,
+							validate: (n) => parseFloat(n) >= -90 && parseFloat(n) <= 90
+						})}
 					/>
-					{errors.lat && <FormFeedback>Ingrese una coordenada válida</FormFeedback>}
+					{errors.lat && <FormFeedback>Ingrese una coordenada válida [-90.00,90.00]</FormFeedback>}
 				</Form.Field>
 				<Form.Field>
 					<input
@@ -38,9 +42,13 @@ const CompanySearch = () => {
 						type="text"
 						name="long"
 						placeholder="Longitud"
-						ref={register({ required: true, pattern: /^-?[0-9]+\.[0-9]+/ })}
+						ref={register({
+							required: true,
+							pattern: /^-?[0-9]+\.[0-9]+/,
+							validate: (n) => parseFloat(n) >= -180 && parseFloat(n) <= 180
+						})}
 					/>
-					{errors.long && <FormFeedback>Ingrese una coordenada válida</FormFeedback>}
+					{errors.long && <FormFeedback>Ingrese una coordenada válida [-180.00, 180.00]</FormFeedback>}
 				</Form.Field>
 				<Form.Field>
 					<input
