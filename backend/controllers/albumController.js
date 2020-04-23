@@ -91,7 +91,7 @@ exports.album_delete = function (req, res) {
         }
       });
 
-    albumsCollection.deleteOne({ '_id': id }, (err, data) => {
+    albumsCollection.deleteOne({ '_id': id }, (err) => {
         if (err) {
             console.log(err);
             res.status(400).send({ error: 'Album could not be deleted. Dependencies might still be active.' });
@@ -120,14 +120,12 @@ exports.album_update = function (req, res) {
                 id_company: new_id_company,
                 id_artist: new_id_artist
             }
-        }, function(err, data){
+        }, function(err){
             if (err) {
-              console.log(err);
               res.status(404).send({ error: 'Oops. No album updated.' });
             }
-            console.log(data);
             
-            res.status(201).send('The album updated correctly');
+            res.status(201).send('album updated successfully');
         }
     );   
 };
@@ -135,33 +133,31 @@ exports.album_update = function (req, res) {
 // Display detail page for a specific book.
 exports.album_detail = function (req, res) {
     id_album = req.params.id;
-    albumsCollection.aggregate([
-        {
-            '$match': {
-                '_id': ObjectId(id_album)
+
+    songsCollection.aggregate(
+        [
+            {
+                '$match': {
+                    'id_album': ObjectId(id_album)
+                }
+            }, {
+                '$graphLookup': {
+                    'from': 'songs',
+                    'startWith': '$next_song',
+                    'connectFromField': 'next_song',
+                    'connectToField': '_id',
+                    'as': 'in_queue',
+                    'maxDepth': 5
+                }
             }
-        }, {
-            '$graphLookup': {
-                'from': 'songs',
-                'startWith': '$next_song',
-                'connectFromField': 'next_song',
-                'connectToField': '_id',
-                'as': 'NextToPlay',
-                'maxDepth': 3
-            }
-        }, {
-            '$project': {
-                'id_company': 0,
-                'id_artist': 0
-            }
-        }
-    ])
-    .exec((err, data) => {
+        ]
+    ).exec((err, data) => {
         if (err) {
             console.log(err);
             res.status(404).send({ error: 'Oops. No song matches that ID.' })
         }
-        res.send(data);
+        res.status(200).send(data);
+        
     });
     // res.send('NOT IMPLEMENTED: Book detail: ' + req.params.id);
 };

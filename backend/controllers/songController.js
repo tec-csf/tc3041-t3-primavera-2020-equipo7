@@ -104,8 +104,8 @@ exports.song_create = function (req, res) {
     const new_duration = req.body.duration;
     const new_genres = req.body.genres;
     const new_next_song = ObjectId(req.body.next_song);
-    const new_artist = ObjectId(req.body.artist);
-    const new_album = ObjectId(req.body.album);
+    const new_artist = ObjectId(req.body.id_artist);
+    const new_album = ObjectId(req.body.id_album);
 
     const newSong = new songsCollection({"name": new_name, "duration": new_duration, "genres": new_genres, "next_song": new_next_song, "id_artist": new_artist, "id_album": new_album});
     newSong.save(function (err) {

@@ -110,7 +110,7 @@ exports.companies_update = function (req, res) {
       console.log(err);
       res.status(400).send({error: 'Could not update company'});
     }else {
-      res.status(200).send('Successfully updated company');
+      res.status(200).send(data);
     }
   });
 };

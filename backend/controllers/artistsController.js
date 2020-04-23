@@ -164,7 +164,7 @@ exports.artist_update = function(req, res) {
         birth_date: new_birth_date,
         birth_country: new_birth_country
       }
-    }, function(err, data){
+    }, function(err){
       if (err) {
         console.log(err);
         res.status(404).send({ error: 'Oops. No artist updated.' });
