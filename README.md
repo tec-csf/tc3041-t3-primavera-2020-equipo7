@@ -3,10 +3,10 @@
 ---
 
 ##### Integrantes:
-1. *[Poner aquí Nombre y Apellidos del integrante 1]* - *[Poner aquí su Matrícula]* - *Campus Santa Fe*
-2. *Alejandra Nissan Leizorek* - *A01024682* - *Campus Santa Fe*
-3. *Yann Le Lorier Bárcena* - *A01025977* - *Campus Santa Fe*
-4. *[Poner aquí Nombre y Apellidos del integrante 4]* - *[Poner aquí su Matrícula]* - *Campus Santa Fe*
+1. *Isaac Harari Masri* - *A01024688* - *CSF*
+2. *Roberto Gervacio Guendulay* - *A01025780* - *CSF*
+3. *Alejandra Nissan Leizorek* - *A01024682* - *Campus Santa Fe*
+4. *Yann Le Lorier Bárcena* - *A01025977* - *Campus Santa Fe*
 
 ---
 ## 1. Aspectos generales
