@@ -65,7 +65,7 @@ Songs
 ```json
 {
   "$id": "kubermusik schema",
-  "$schema": "kubermusik”,
+  "$schema": "kubermusik",
   "title": "Songs",
   "type": "object",
   "properties": {
@@ -79,17 +79,17 @@ Songs
     },
     "duration": {
       "description": "The duration of the song",
-      "type": "double",
+      "type": "double"
     }, 
-   “next_song”: {
+   "next_song": {
       "description": "Makes reference to the next song to play",
-      "type": "ObjectId",
+      "type": "ObjectId"
    },
-   “id_artist”: {
+   "id_artist": {
       "description": "Makes reference to the artist, author of this song",
-      "type": "ObjectId",
+      "type": "ObjectId"
    },
-   “id_album”: {
+   "id_album": {
       "description": "Makes reference to the album it belongs to",
       "type": "ObjectId",
    }
