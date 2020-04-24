@@ -170,18 +170,18 @@ Companies
   "properties": {
     "_id": {
       "type": "ObjectId",
-      "description": "The unique key for the object."
+      "description": "The unique key for the object.",
     },
     "name": {
       "type": "string",
-      "description": "The companies name."
+      "description": "The companies name.",
     },
     "coordinates": {
       "description": "The location of the company",
       "type": "array",
       "items": {
         "latitude": "double",
-        “longitude”: “double”
+        “longitude”: “double”,
       }
     }
   }
