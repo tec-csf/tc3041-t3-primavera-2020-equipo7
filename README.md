@@ -62,7 +62,7 @@ Al usar estas herramientas, es muy fácil construir aplicaciones web, permite fl
 
 
 Songs
-
+```json
 {
   "$id": "kubermusik schema
   "$schema": "kubermusik”,
@@ -97,9 +97,9 @@ Songs
 }
 
 
-
+```
 Albums
-
+```json
 {
   "$id": "kubermusik schema
   "$schema": "kubermusik”,
@@ -128,9 +128,9 @@ Albums
    }
   }
 }
-
+```
 Artists
-
+```
 {
   "$id": "kubermusik schema
   "$schema": "kubermusik”,
@@ -160,10 +160,10 @@ Artists
    }
   }
 }
-
+```
 
 Companies
-
+```json
 {
   "$id": "kubermusik schema
   "$schema": "kubermusik”,
@@ -188,7 +188,7 @@ Companies
     }
   }
 }
-
+```
 
 ### 2.2 Arquitectura de la solución
 
