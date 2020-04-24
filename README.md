@@ -4,7 +4,7 @@
 
 ##### Integrantes:
 1. *[Poner aquí Nombre y Apellidos del integrante 1]* - *[Poner aquí su Matrícula]* - *Campus Santa Fe*
-2. *[Poner aquí Nombre y Apellidos del integrante 2]* - *[Poner aquí su Matrícula]* - *Campus Santa Fe*
+2. *Alejandra Nissan Leizorek* - *A01024682* - *Campus Santa Fe*
 3. *Yann Le Lorier Bárcena* - *A01025977* - *Campus Santa Fe*
 4. *[Poner aquí Nombre y Apellidos del integrante 4]* - *[Poner aquí su Matrícula]* - *Campus Santa Fe*
 
@@ -60,7 +60,135 @@ Al usar estas herramientas, es muy fácil construir aplicaciones web, permite fl
 
 ### 2.1 Modelo de la *base de datos* 
 
-*[Incluya aquí el modelo JSON Schema y explique los patrones utilizados en cada caso.*
+
+Songs
+
+{
+  "$id": "kubermusik schema
+  "$schema": "kubermusik”,
+  "title": "Songs",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "ObjectId",
+      "description": "The unique key for the object."
+    },
+    "name": {
+      "type": "string",
+      "description": "The songs name."
+    },
+    "duration": {
+      "description": "The duration of the song",
+      "type": "double",
+    }, 
+   “next_song”: {
+      "description": "Makes reference to the next song to play",
+      "type": "ObjectId",
+   },
+   “id_artist”: {
+      "description": "Makes reference to the artist, author of this song",
+      "type": "ObjectId",
+   },
+   “id_album”: {
+      "description": "Makes reference to the album it belongs to",
+      "type": "ObjectId",
+   }
+  }
+}
+
+
+
+Albums
+
+{
+  "$id": "kubermusik schema
+  "$schema": "kubermusik”,
+  "title": "Albums",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "ObjectId",
+      "description": "The unique key for the object."
+    },
+    "name": {
+      "type": "string",
+      "description": "The albums name."
+    },
+    "launch_date": {
+      "description": "The day it was launched",
+      "type": "date",
+    }, 
+   “id_company”: {
+      "description": "Makes reference to the company that supported this album. ",
+      "type": "ObjectId",
+   },
+   “id_artist”: {
+      "description": "Makes reference to the artist of the album",
+      "type": "ObjectId",
+   }
+  }
+}
+
+Artists
+
+{
+  "$id": "kubermusik schema
+  "$schema": "kubermusik”,
+  "title": "Artists",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "ObjectId",
+      "description": "The unique key for the object."
+    },
+    "name": {
+      "type": "string",
+      "description": "The artists name."
+    },
+    "start_date": {
+      "description": "The day the artist started his artistic career",
+      "type": "date",
+    },
+   "birth_date": {
+      "description": "His birth date",
+      "type": "date",
+    }, 
+ 
+   “birth_country”: {
+      "description": "His country of birth. ",
+      "type": "String",
+   }
+  }
+}
+
+
+Companies
+
+{
+  "$id": "kubermusik schema
+  "$schema": "kubermusik”,
+  "title": "Companies",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "ObjectId",
+      "description": "The unique key for the object."
+    },
+    "name": {
+      "type": "string",
+      "description": "The companies name."
+    },
+    "coordinates": {
+      "description": "The location of the company",
+      "type": "array",
+      "items": {
+        "latitude": "double",
+        “longitude”: “double”
+      }
+    }
+  }
+}
+
 
 ### 2.2 Arquitectura de la solución
 
