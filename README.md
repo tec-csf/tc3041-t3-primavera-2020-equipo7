@@ -132,7 +132,7 @@ Artists
 ```
 {
   "$id": "kubermusik schema",
-  "$schema": "kubermusik”,
+  "$schema": "kubermusik",
   "title": "Artists",
   "type": "object",
   "properties": {
@@ -146,16 +146,16 @@ Artists
     },
     "start_date": {
       "description": "The day the artist started his artistic career",
-      "type": "date",
+      "type": "date"
     },
    "birth_date": {
       "description": "His birth date",
-      "type": "date",
+      "type": "date"
     }, 
  
-   “birth_country”: {
+   "birth_country": {
       "description": "His country of birth. ",
-      "type": "String",
+      "type": "String"
    }
   }
 }
