@@ -58,135 +58,135 @@ Se trata de tecnologías basadas en JavaScript para desarrollar aplicaciones web
 
 Al usar estas herramientas, es muy fácil construir aplicaciones web, permite flexibilidad porque el desarrollador puede elegir qué plug-ins necesita para su caso de uso específico.
 
-### 2.1 Modelo de la *base de datos* 
+### 2.1 Modelo de la base de datos
 
 
 Songs
 ```json
 {
-  "$id": "kubermusik schema",
-  "$schema": "kubermusik",
-  "title": "Songs",
-  "type": "object",
-  "properties": {
-    "_id": {
-      "type": "ObjectId",
-      "description": "The unique key for the object."
-    },
-    "name": {
-      "type": "string",
-      "description": "The songs name."
-    },
-    "duration": {
-      "description": "The duration of the song",
-      "type": "double"
-    }, 
-   "next_song": {
-      "description": "Makes reference to the next song to play",
-      "type": "ObjectId"
-   },
-   "id_artist": {
-      "description": "Makes reference to the artist, author of this song",
-      "type": "ObjectId"
-   },
-   "id_album": {
-      "description": "Makes reference to the album it belongs to",
-      "type": "ObjectId",
-   }
-  }
+"$id": "kubermusik schema",
+"$schema": "kubermusik",
+"title": "Songs",
+"type": "object",
+"properties": {
+	"_id": {
+		"type": "ObjectId",
+		"description": "The unique key for the object."
+	},
+	"name": {
+		"type": "string",
+		"description": "The songs name."
+	},
+	"duration": {
+		"description": "The duration of the song",
+		"type": "double"
+	}, 
+	"next_song": {
+		"description": "Makes reference to the next song to play",
+		"type": "ObjectId"
+	},
+	"id_artist": {
+		"description": "Makes reference to the artist, author of this song",
+		"type": "ObjectId"
+	},
+	"id_album": {
+		"description": "Makes reference to the album it belongs to",
+		"type": "ObjectId",
+	}
+}
 }
 ```
 Albums
 ```json
 
 {
-    "$id": "kubermusik schema",
-    "$schema": "kubermusik",
-    "title": "Albums",
-    "type": "object",
-    "properties": {
-      "_id": {
-        "type": "ObjectId",
-        "description": "The unique key for the object."
-      },
-      "name": {
-        "type": "string",
-        "description": "The albums name."
-      },
-      "launch_date": {
-        "description": "The day it was launched",
-        "type": "date",
-      }, 
-     "id_company": {
-        "description": "Makes reference to the company that supported this album. ",
-        "type": "ObjectId",
-     },
-     "id_artist": {
-        "description": "Makes reference to the artist of the album",
-        "type": "ObjectId",
-     }
-    }
-  }
+"$id": "kubermusik schema",
+"$schema": "kubermusik",
+"title": "Albums",
+"type": "object",
+"properties": {
+		"_id": {
+			"type": "ObjectId",
+			"description": "The unique key for the object."
+		},
+		"name": {
+			"type": "string",
+			"description": "The albums name."
+		},
+		"launch_date": {
+			"type": "date",
+			"description": "The day it was launched"
+		}, 
+		"id_company": {
+			"description": "Makes reference to the company that recorded this album. ",
+			"type": "ObjectId"
+		},
+		"id_artist": {
+			"type": "ObjectId",
+			"description": "Makes reference to the artist of the album"
+		}
+}
+}
 ```
 Artists
-```
+```json
 {
-  "$id": "kubermusik schema",
-  "$schema": "kubermusik",
-  "title": "Artists",
-  "type": "object",
-  "properties": {
-    "_id": {
-      "type": "ObjectId",
-      "description": "The unique key for the object."
-    },
-    "name": {
-      "type": "string",
-      "description": "The artists name."
-    },
-    "start_date": {
-      "description": "The day the artist started his artistic career",
-      "type": "date"
-    },
-   "birth_date": {
-      "description": "His birth date",
-      "type": "date"
-    }, 
- 
-   "birth_country": {
-      "description": "His country of birth. ",
-      "type": "String"
-   }
-  }
+"$id": "kubermusik schema",
+"$schema": "kubermusik",
+"title": "Artists",
+"type": "object",
+"properties": {
+	"_id": {
+		"type": "ObjectId",
+		"description": "The unique key for the object."
+	},
+	"name": {
+		"type": "string",
+		"description": "The artists name."
+	},
+	"start_date": {
+		"type": "date",
+		"description": "The day the artist started their artistic career"
+	},
+	"birth_date": {
+		"type": "date",
+		"description": "Their birth date"
+	}, 
+
+	"birth_country": {
+		"type": "String",
+		"description": "Their country of birth. "
+	}
+}
 }
 ```
 
 Companies
 ```json
-  {
-    "$id": "kubermusik schema",
-    "$schema": "kubermusik",
-    "title": "Companies",
-    "type": "object",
-    "properties": {
-      "_id": {
-        "type": "ObjectId",
-        "description": "The unique key for the object.",
-      },
-      "name": {
-        "type": "string",
-        "description": "The companies name.",
-      },
-      "coordinates": {
-        "description": "The location of the company",
-        "type": "array",
-        "items": {
-          "latitude": "double",
-          "longitude": "double",
-        }
-      }
-    }
-  }
+{
+"$id": "kubermusik schema",
+"$schema": "kubermusik",
+"title": "Companies",
+"type": "object",
+	"properties": {
+		"_id": {
+			"type": "ObjectId",
+			"description": "The unique key for the object."
+		},
+		"name": {
+			"type": "string",
+			"description": "The company's name."
+		},
+		"coordinates": {
+			"type": "array",
+			"items": {
+				"latitude": "double",
+				"longitude": "double",
+				"description": "The location of the company"
+			}
+		}
+	}
+}
 ```
 
 ### 2.2 Arquitectura de la solución
