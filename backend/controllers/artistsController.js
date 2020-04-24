@@ -39,6 +39,12 @@ exports.artist_list = function(req, res) {
       }
       res.send(data);
     });
+    // .explain((err, data) => {
+      //   if (err) {
+      //     console.log(err);
+      //     res.status(404).send({ error: 'no artists' });
+      //   } else res.status(200).send(data);
+      // });
 };
 
 //Handle company create on POST.
@@ -132,11 +138,13 @@ exports.artist_search = function(req, res) {
       }
       res.send(data);
     });
+    // .explain((err, data) => {
+      //   if (err) {
+      //     console.log(err);
+      //     res.status(404).send({ error: 'no artists' });
+      //   } else res.status(200).send(data);
+      // });
 };
-
-//exports.artist_update = function (req, res) {
-//}
-//Handle Artist update on POST.
 
 exports.artist_update = function(req, res) {
   id = req.params.id;

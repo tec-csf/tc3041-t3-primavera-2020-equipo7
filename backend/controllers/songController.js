@@ -54,7 +54,12 @@ exports.song_list = function (req, res) {
         }
         res.send(data);
     });
-    // res.send('NOT IMPLEMENTED: Songs list');
+//    .explain((err, data) => {
+//        if (err) {
+//            console.log(err);
+//            res.status(404).send({ error: 'No Songs matched' });
+//        } else res.status(200).send(data);
+//    });
 };
 
 // Display detail page for a specific song.
@@ -96,6 +101,12 @@ exports.song_detail = function (req, res) {
         }
         res.send(data);
     });
+    // .explain((err, data) => {
+    //     if (err) {
+    //         console.log(err);
+    //         res.status(404).send({ error: 'no songs matched' });
+    //     } else res.status(200).send(data);
+    // });
 };
 
 // Handle Song create on POST.
@@ -206,6 +217,12 @@ exports.song_search = function(req,res) {
         }
         res.send(data);
     });
+    // .explain((err, data) => {
+    //     if (err) {
+    //         console.log(err);
+    //         res.status(404).send({ error: 'No song matched' });
+    //     } else res.status(200).send(data);
+    // });
 };
 
 exports.song_cats = function (req, res) {
@@ -229,13 +246,19 @@ exports.song_cats = function (req, res) {
             }
         }
     ])
-        .exec((err, data) => {
+    .exec((err, data) => {
             if (err) {
-                console.log(err);
-                res.status(404).send({ error: 'Oops. No song categories found.' })
-            }
-            res.send(data);
-        });  
+                    console.log(err);
+                    res.status(404).send({ error: 'Oops. No song categories found.' })
+                }
+                res.send(data);
+            });  
+    // .explain((err, data) => {
+    //     if (err){
+    //         console.log(err);
+    //         res.status(404).send({error: 'No Song categories found'});
+    //     }else res.status(200).send(data);
+    // });
 };
 
 exports.song_total = function (req, res) {

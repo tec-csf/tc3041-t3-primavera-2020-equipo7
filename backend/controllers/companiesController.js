@@ -140,6 +140,12 @@ exports.companies_search = function (req,res) {
       }
       res.send(data);
     });
+    // .explain((err, data) => {
+      //   if (err) {
+      //     console.log(err);
+      //     res.status(404).send({ error: 'no companies' });
+      //   } else res.status(200).send(data);
+      // });
 };
 
 
@@ -184,6 +190,12 @@ exports.companies_geo = function (req, res) {
 		  }
           res.send(data);
       });
+      // .explain((err, data) => {
+      //   if (err) {
+      //     console.log(err);
+      //     res.status(404).send({ error: 'no companies' });
+      //   } else res.status(200).send(data);
+      // });
 };
 
 

@@ -57,7 +57,12 @@ exports.album_list = function (req, res) {
             }
             res.send(data);
         });
-    // res.send('NOT IMPLEMENTED: Albums');
+    // .explain((err, data) => {
+      //   if (err) {
+      //     console.log(err);
+      //     res.status(404).send({ error: 'no albums' });
+      //   } else res.status(200).send(data);
+      // });
 };
 
 exports.album_create = function (req, res) {
@@ -158,7 +163,12 @@ exports.album_detail = function (req, res) {
         res.status(200).send(data);
         
     });
-    // res.send('NOT IMPLEMENTED: Book detail: ' + req.params.id);
+    // .explain((err, data) => {
+      //   if (err) {
+      //     console.log(err);
+      //     res.status(404).send({ error: 'no albums' });
+      //   } else res.status(200).send(data);
+      // });
 };
 
 exports.album_search = function (req, res) {
@@ -214,7 +224,12 @@ exports.album_search = function (req, res) {
             }
             res.send(data);
         });
-    // res.send('album search by name not implemented')
+    // .explain((err, data) => {
+      //   if (err) {
+      //     console.log(err);
+      //     res.status(404).send({ error: 'no albums' });
+      //   } else res.status(200).send(data);
+      // });
 }
 
 exports.album_total = function(req, res) {
