@@ -278,7 +278,25 @@ Puede jalar información de un archivo CSV o bien de un .json, que encuentra en 
 ![Importación de datos](./images/importData.png)
 
 ### 2.5.5 Deploy
-MISSING
+
+Para correr el backend, se utilizó un proyecto de GCP con una app de App Engine [Ver más](https://cloud.google.com/appengine/docs/standard/nodejs/building-app/deploying-web-service)
+
+```sh
+gcloud app create
+gcloud app deploy
+```
+
+El resultado puede verse en: https://gliphy-mailify-dev.wl.r.appspot.com/
+
+
+Finalmente para el frontend se recurrio a firebase hosting [Ver más](https://firebase.google.com/docs/hosting/)
+
+```sh
+firebase init
+firebase deploy
+```
+
+El resultado final puede verse en: https://kubermusik-3f699.firebaseapp.com/
 
 ## 3. Referencias
 

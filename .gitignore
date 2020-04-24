@@ -197,3 +197,6 @@ yarn.lock
 
 #key with password
 keys_dev.js
+
+build
+.firebaserc
