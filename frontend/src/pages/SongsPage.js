@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
+import { Label } from 'semantic-ui-react';
 //own
 import ModalForm from '../components/Modals/ModalForm';
 import DataTable from '../components/Tables/SongsTable';
@@ -12,7 +13,17 @@ import NoRegs from '../components/UI/NoRegs';
 
 const SongsPage = () => {
 	const { loadData, isLoading, data, searchByName, isSearching, totalPages } = useFetch();
-	//console.log(data)
+
+	const cats = useFetch(true, 'categories/').data[0];
+
+	const [ categories, setCategories ] = useState([]);
+
+	useEffect(
+		() => {
+			setCategories(cats ? cats.CategorizeByGenre : []);
+		},
+		[ cats ]
+	);
 
 	return (
 		<React.Fragment>
@@ -29,6 +40,15 @@ const SongsPage = () => {
 					<IndexSearch searcher={searchByName} type="Song" reloader={loadData} />
 				</Col>
 				<Col>{!isSearching && <Pagination totalPages={totalPages} />}</Col>
+			</Row>
+			<Row>
+				<Col>
+					{categories.map((gender, i) => (
+							<Label key={i} tag >
+								{gender._id} : {gender.count}
+							</Label>
+						))}
+				</Col>
 			</Row>
 			<Row>
 				{isLoading ? (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardHeader, CardFooter, CardBody, CardTitle, Row, Col } from 'reactstrap';
-import { Label,Icon, ButtonGroup } from 'semantic-ui-react';
+import { Label, Icon, ButtonGroup } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 //own
 import ModalForm from '../Modals/ModalForm';
@@ -16,8 +16,9 @@ const SongsTable = (props) => {
 				<Col sm="4" key={item._id}>
 					<Card style={{ marginTop: '10px', marginBottom: '10px' }}>
 						<CardHeader tag="h3">
-							<Icon size='small' name='music'/>
-							{item.name}</CardHeader>
+							<Icon size="small" name="music" />
+							{item.name}
+						</CardHeader>
 
 						<CardBody>
 							<CardTitle>
@@ -50,17 +51,15 @@ const SongsTable = (props) => {
 						</CardFooter>
 						<CardFooter>
 							<ButtonGroup>
-
 								<ModalForm
-								isCard
+									isCard
 									isEditing
 									updateState={props.updateState}
 									AddEditForm={SongsForm}
 									item={item}
-									/>
+								/>
 								<DeleteModal isCard title={item.name} id={item._id} updateState={props.updateState} />
-							
-									</ButtonGroup>
+							</ButtonGroup>
 						</CardFooter>
 					</Card>
 				</Col>

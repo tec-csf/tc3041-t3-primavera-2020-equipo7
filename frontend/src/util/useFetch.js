@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import { useLocation /*useHistory*/ } from 'react-router-dom';
 import axios from '../util/axios';
 
-export const useFetch = (loadOnMount=true) => {
+export const useFetch = (loadOnMount = true, extra = '') => {
 	//con useRef si el value cambia no causa un re-render
 	const isCurrent = useRef(true);
 
@@ -10,7 +10,7 @@ export const useFetch = (loadOnMount=true) => {
 	const [ data, setData ] = useState([]);
 	const [ isLoading, setIsLoading ] = useState(loadOnMount);
 	const [ isSearching, setIsSearching ] = useState(false);
-	const [ totalPages, setTotalPages ] = useState(0);  
+	const [ totalPages, setTotalPages ] = useState(0);
 
 	//location for pags
 	const location = useLocation();
@@ -25,7 +25,7 @@ export const useFetch = (loadOnMount=true) => {
 			setIsLoading(true);
 			setIsSearching(false);
 			axios
-				.get(currentUrl + (currentPage == null ? '1' : currentPage) + '/')
+				.get(currentUrl + extra + (currentPage == null ? '1' : currentPage) + '/')
 				.then((res) => {
 					//console.log(res.data);
 					if (isCurrent.current) {
@@ -37,10 +37,10 @@ export const useFetch = (loadOnMount=true) => {
 					console.log(err);
 				});
 		},
-		[ currentPage, currentUrl ]
+		[ currentPage, currentUrl, extra ]
 	);
 
-	const searchByName = useCallback((pathname, payload={}) => {
+	const searchByName = useCallback((pathname, payload = {}) => {
 		//console.log('posting: ', pathname);
 		setIsSearching(true);
 		setIsLoading(true);
@@ -56,24 +56,31 @@ export const useFetch = (loadOnMount=true) => {
 			.catch((err) => console.log('searchByName:', err));
 	}, []);
 
-	const getTotalPages = useCallback(() => {
-		//console.log('pages: ', currentUrl.replace('s/', ''))
-		axios.get(currentUrl.replace('s/', ''))
-		.then(res => {
-			//console.log('totals', res.data[0].total);
-			setTotalPages(Math.ceil(res.data[0].total / 30));
-		}).catch(err => console.log(err))
-	}, [currentUrl]);
+	const getTotalPages = useCallback(
+		() => {
+			//console.log('pages: ', currentUrl.replace('s/', ''))
+			axios
+				.get(currentUrl.replace('s/', ''))
+				.then((res) => {
+					//console.log('totals', res.data[0].total);
+					setTotalPages(Math.ceil(res.data[0].total / 30));
+				})
+				.catch((err) => console.log(err));
+		},
+		[ currentUrl ]
+	);
 
 	// initial Load
 	useEffect(
 		() => {
-			if(loadOnMount){
+			if (loadOnMount) {
 				loadData();
-				getTotalPages();
+				if(!extra){ //hotfix
+					getTotalPages();
+				}
 			}
 		},
-		[ loadData, loadOnMount , getTotalPages]
+		[ loadData, loadOnMount, getTotalPages ]
 	);
 
 	// to avoid set state when it is gone
