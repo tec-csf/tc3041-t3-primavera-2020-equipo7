@@ -1,0 +1,28 @@
+{
+    "$id": "kubermusik schema",
+    "$schema": "kubermusik",
+    "title": "Albums",
+    "type": "object",
+    "properties": {
+      "_id": {
+        "type": "ObjectId",
+        "description": "The unique key for the object."
+      },
+      "name": {
+        "type": "string",
+        "description": "The albums name."
+      },
+      "launch_date": {
+        "description": "The day it was launched",
+        "type": "date",
+      }, 
+     "id_company": {
+        "description": "Makes reference to the company that supported this album. ",
+        "type": "ObjectId",
+     },
+     "id_artist": {
+        "description": "Makes reference to the artist of the album",
+        "type": "ObjectId",
+     }
+    }
+  }

@@ -1,0 +1,29 @@
+{
+  "$id": "kubermusik schema",
+  "$schema": "kubermusik",
+  "title": "Artists",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "ObjectId",
+      "description": "The unique key for the object."
+    },
+    "name": {
+      "type": "string",
+      "description": "The artists name."
+    },
+    "start_date": {
+      "description": "The day the artist started his artistic career",
+      "type": "date"
+    },
+   "birth_date": {
+      "description": "His birth date",
+      "type": "date"
+    }, 
+ 
+   "birth_country": {
+      "description": "His country of birth. ",
+      "type": "String"
+   }
+  }
+}
