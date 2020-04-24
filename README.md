@@ -163,30 +163,30 @@ Artists
 
 Companies
 ```json
-{
-  "$id": "kubermusik schema",
-  "$schema": "kubermusik”,
-  "title": "Companies",
-  "type": "object",
-  "properties": {
-    "_id": {
-      "type": "ObjectId",
-      "description": "The unique key for the object.",
-    },
-    "name": {
-      "type": "string",
-      "description": "The companies name.",
-    },
-    "coordinates": {
-      "description": "The location of the company",
-      "type": "array",
-      "items": {
-        "latitude": "double",
-        “longitude”: “double”,
+  {
+    "$id": "kubermusik schema",
+    "$schema": "kubermusik",
+    "title": "Companies",
+    "type": "object",
+    "properties": {
+      "_id": {
+        "type": "ObjectId",
+        "description": "The unique key for the object.",
+      },
+      "name": {
+        "type": "string",
+        "description": "The companies name.",
+      },
+      "coordinates": {
+        "description": "The location of the company",
+        "type": "array",
+        "items": {
+          "latitude": "double",
+          "longitude": "double",
+        }
       }
     }
   }
-}
 ```
 
 ### 2.2 Arquitectura de la solución
