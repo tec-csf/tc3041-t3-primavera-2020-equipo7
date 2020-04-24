@@ -14,7 +14,9 @@ exports.companies_list = function (req, res) {
     }, {
       '$limit': 30
     }, {
-      '$sort' : 1
+      '$sort': {
+        'name': 1
+      }
     }
   ])
   .exec((err, data) => {
@@ -171,7 +173,7 @@ exports.companies_geo = function (req, res) {
       }
     }, {
       '$sort': {
-        'distance': 1
+        'name': 1
       }
     }
   ])
