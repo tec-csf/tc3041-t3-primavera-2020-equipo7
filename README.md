@@ -64,7 +64,7 @@ Al usar estas herramientas, es muy fácil construir aplicaciones web, permite fl
 Songs
 ```json
 {
-  "$id": "kubermusik schema
+  "$id": "kubermusik schema"
   "$schema": "kubermusik”,
   "title": "Songs",
   "type": "object",
@@ -101,7 +101,7 @@ Songs
 Albums
 ```json
 {
-  "$id": "kubermusik schema
+  "$id": "kubermusik schema"
   "$schema": "kubermusik”,
   "title": "Albums",
   "type": "object",
@@ -132,7 +132,7 @@ Albums
 Artists
 ```
 {
-  "$id": "kubermusik schema
+  "$id": "kubermusik schema"
   "$schema": "kubermusik”,
   "title": "Artists",
   "type": "object",
@@ -165,7 +165,7 @@ Artists
 Companies
 ```json
 {
-  "$id": "kubermusik schema
+  "$id": "kubermusik schema"
   "$schema": "kubermusik”,
   "title": "Companies",
   "type": "object",
